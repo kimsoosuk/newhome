@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════
+   books.css — 책 표지 컴포넌트
+   일반 커버 + 화이트 커버 + 전체 컬러 변형
+   ═══════════════════════════════════════ */
+
+.book-item {
+  flex: 0 0 auto;
+  width: clamp(160px,28vw,220px);
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform .25s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+.book-item:hover { transform: translateY(-8px) scale(1.03); z-index: 10 }
+
+.book-cover {
+  width: 100%;
+  aspect-ratio: 3/4.2;
+  border-radius: var(--radius-book);
+  position: relative;
+  overflow: visible;
+}
+.book-cover-iw {
+  width: 100%; height: 100%;
+  border-radius: var(--radius-book);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  transition: box-shadow .25s ease;
+}
+.book-item:hover .book-cover-iw {
+  box-shadow: 0 8px 28px rgba(0,0,0,.12), 0 4px 10px rgba(0,0,0,.06);
+}
+
+/* 책등 효과 */
+.book-cover-iw::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 16px;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.28) 0%, rgba(0,0,0,.15) 15%,
+    rgba(255,255,255,.12) 20%, rgba(255,255,255,.05) 26%,
+    rgba(0,0,0,.06) 35%, rgba(0,0,0,.02) 55%, transparent 100%);
+  z-index: 5;
+}
+/* 페이지 가장자리 */
+.book-cover-iw::after {
+  content: ''; position: absolute; right: 0; top: 3px; bottom: 3px; width: 3px;
+  background: linear-gradient(90deg, #e8e4de, #f5f1eb, #e0dcd6);
+  border-radius: 0 2px 2px 0; z-index: 4;
+}
+.book-cover-shine {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.04) 25%, transparent 50%, rgba(0,0,0,.02) 100%);
+  z-index: 3; pointer-events: none;
+}
+.book-cover-bg { position: absolute; inset: 0; z-index: 1 }
+.book-cover-inner-border {
+  position: absolute; inset: 8px 7px;
+  border: 1px solid rgba(255,220,120,.35);
+  border-radius: 1px; z-index: 4; pointer-events: none;
+}
+.bc-text { position: absolute; left: 0; right: 0; text-align: center; z-index: 5 }
+.bc-top { top: 32px }
+.bc-bot { bottom: 32px }
+.book-cover-title {
+  font-weight: 700; font-size: clamp(17px,2.5vw,22px);
+  color: #fff; line-height: 1.35;
+  text-shadow: 0 2px 6px rgba(0,0,0,.45);
+  letter-spacing: -.2px; word-break: keep-all;
+}
+.book-cover-cat {
+  font-size: clamp(10px,1.4vw,13px);
+  color: rgba(255,255,255,.55);
+  font-weight: 400; margin-top: 8px; letter-spacing: .4px;
+}
+.book-label { margin-top: 12px; padding: 0 2px }
+.book-label-title { font-weight: 600; font-size: 12px; color: var(--text-primary); line-height: 1.3 }
+.book-label-sub { font-size: 10px; color: var(--text-tertiary); margin-top: 1px }
+
+/* ═══ 컬러 변형 ═══ */
+/* 공부법 (초록 계열) */
+.cover-s1 { background: linear-gradient(180deg, #2e5040 0%, #1a3428 60%, #0e2018 100%) }
+.cover-s2 { background: linear-gradient(180deg, #3a5a3a 0%, #243a22 60%, #152014 100%) }
+.cover-s3 { background: linear-gradient(180deg, #2a4a38 0%, #183020 60%, #0c1c10 100%) }
+.cover-s4 { background: linear-gradient(180deg, #3c5c44 0%, #264030 60%, #162818 100%) }
+.cover-s5 { background: linear-gradient(180deg, #344e3c 0%, #1e3424 60%, #102014 100%) }
+/* 사고력 (보라 계열) */
+.cover-m1 { background: linear-gradient(180deg, #4a2a50 0%, #301838 60%, #1e0e24 100%) }
+.cover-m2 { background: linear-gradient(180deg, #5a2840 0%, #3e1828 60%, #280e18 100%) }
+/* 생활습관 (갈색 계열) */
+.cover-h1 { background: linear-gradient(180deg, #6b4a30 0%, #4a3018 60%, #2e1c0c 100%) }
+.cover-h2 { background: linear-gradient(180deg, #5a4028 0%, #3e2a16 60%, #28180a 100%) }
+.cover-h3 { background: linear-gradient(180deg, #704e34 0%, #4e3420 60%, #30200e 100%) }
+.cover-h4 { background: linear-gradient(180deg, #604228 0%, #422c14 60%, #2a1a08 100%) }
+.cover-h5 { background: linear-gradient(180deg, #5e4830 0%, #40301c 60%, #261c0c 100%) }
+.cover-h6 { background: linear-gradient(180deg, #6a4e38 0%, #4c3422 60%, #2c1e10 100%) }
+.cover-h7 { background: linear-gradient(180deg, #584028 0%, #3c2a14 60%, #221808 100%) }
+/* 가치관 (붉은 보라) */
+.cover-t1 { background: linear-gradient(180deg, #5a2838 0%, #3e1824 60%, #280e16 100%) }
+/* 사전 (어두운 회색) */
+.cover-d1 { background: linear-gradient(180deg, #3a3a40 0%, #262628 60%, #141416 100%) }
+.cover-d2 { background: linear-gradient(180deg, #404048 0%, #2a2a30 60%, #18181c 100%) }
+.cover-d3 { background: linear-gradient(180deg, #383840 0%, #242428 60%, #121214 100%) }
+.cover-d4 { background: linear-gradient(180deg, #3c3c44 0%, #28282e 60%, #161618 100%) }
+.cover-d5 { background: linear-gradient(180deg, #343438 0%, #222224 60%, #101012 100%) }
+.cover-d6 { background: linear-gradient(180deg, #3e3e46 0%, #2c2c32 60%, #1a1a1e 100%) }
+
+/* ═══ 화이트 커버 (수석의 공부법) ═══ */
+.cover-white .book-cover-iw {
+  box-shadow: 0 2px 8px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06), 0 0 0 1px rgba(91,58,122,.15);
+}
+.book-item:hover .cover-white .book-cover-iw {
+  box-shadow: 0 8px 28px rgba(0,0,0,.12), 0 4px 10px rgba(0,0,0,.06), 0 0 0 1px rgba(91,58,122,.25);
+}
+.cover-white .book-cover-iw::before {
+  background: linear-gradient(90deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.06) 15%, rgba(0,0,0,.02) 20%, rgba(255,255,255,.3) 22%, rgba(0,0,0,.03) 30%, transparent 100%);
+}
+.cover-white .book-cover-iw::after {
+  background: linear-gradient(90deg, #ddd, #eee, #ddd);
+  box-shadow: 1px 0 2px rgba(0,0,0,.04);
+}
+.white-jamo {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(56px,10vw,80px);
+  line-height: 1;
+  margin-top: clamp(8px,1.5vw,14px);
+  color: var(--brand-dark);
+}
+.white-sub {
+  font-size: clamp(15px,2.2vw,19px);
+  color: #444; margin-top: 8px;
+  letter-spacing: -.1px; font-weight: 600;
+}
+
+/* ═══ 반응형 ═══ */
+@media (max-width:480px) { .book-item { width: 155px } }
