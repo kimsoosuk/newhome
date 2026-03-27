@@ -1,6 +1,5 @@
 /* ═══════════════════════════════════════
    scripts/sections.js — 콘텐츠 섹션 빌더
-   data/programs.js의 데이터를 읽어서 HTML 생성
    ═══════════════════════════════════════ */
 
 function makeBook(b, i) {
@@ -30,27 +29,37 @@ function makeWhiteBook(d, i) {
     '</a>';
 }
 
+function makeRecommendBook(r, i) {
+  return '<a class="book-item animate-in delay-' + (i % 4 + 1) + '" href="' + r.href + '" target="_blank">' +
+    '<div class="book-cover cover-img"><div class="book-cover-iw">' +
+    '<div class="book-cover-bg" style="background-image:url(\'' + r.img + '\')"></div>' +
+    '<div class="book-cover-shine"></div>' +
+    '</div></div>' +
+    '<div style="margin-top:10px;padding:0 2px">' +
+    '<div style="font-weight:600;font-size:12px;color:var(--text-primary);line-height:1.3">' + r.t + '</div>' +
+    '<div style="font-size:10px;color:var(--text-tertiary);margin-top:2px">' + r.pub + '</div>' +
+    '</div></a>';
+}
+
 function buildSections() {
   var CA = document.getElementById('contentArea');
   var html = '';
 
-  // 프로그램 섹션들
-  SECTIONS_DATA.forEach(function(sec) {
+  SECTIONS_DATA.forEach(function (sec) {
     html += '<section class="programs-section" id="' + sec.id + '">';
     html += '<div class="program-header animate-in">';
     html += '<div class="program-title">' + sec.title + '</div>';
     html += '<div class="program-subtitle">' + sec.sub + '</div></div>';
     html += '<div class="program-scroll">';
-
     if (sec.white) {
-      METHOD_DATA.forEach(function(d, i) { html += makeWhiteBook(d, i); });
+      METHOD_DATA.forEach(function (d, i) { html += makeWhiteBook(d, i); });
     } else if (sec.books) {
-      sec.books.forEach(function(b, i) { html += makeBook(b, i); });
+      sec.books.forEach(function (b, i) { html += makeBook(b, i); });
     }
     html += '</div></section>';
   });
 
-  // 타이머 섹션
+  // 타이머
   html += '<section class="timer-section" id="sec-timer">' +
     '<div class="program-header animate-in"><div class="program-title">공부 타이머</div>' +
     '<div class="program-subtitle">25분 집중, 5분 휴식 — 포모도로 기법</div></div>' +
@@ -66,12 +75,20 @@ function buildSections() {
     '<button class="timer-btn reset" id="tR">초기화</button>' +
     '</div></div></section>';
 
-  // 진단 섹션
+  // 수석의 추천도서
+  html += '<section class="programs-section" id="sec-recommend">' +
+    '<div class="program-header animate-in"><div class="program-title">수석의 추천도서</div>' +
+    '<div class="program-subtitle">수석 선생님이 직접 고른 필독서</div></div>' +
+    '<div class="program-scroll">';
+  RECOMMEND_DATA.forEach(function (r, i) { html += makeRecommendBook(r, i); });
+  html += '</div></section>';
+
+  // 진단
   html += '<section class="programs-section" id="sec-diag" style="padding-bottom:20px;background:#fff">' +
     '<div class="program-header animate-in"><div class="program-title">진단</div>' +
     '<div class="program-subtitle">나를 알아가는 공부 진단</div></div>' +
     '<div class="diag-scroll" style="padding-bottom:10px">';
-  DIAGNOSTICS_DATA.forEach(function(c, i) {
+  DIAGNOSTICS_DATA.forEach(function (c, i) {
     html += '<div class="diag-card animate-in delay-' + (i % 4 + 1) + '">' +
       '<div class="diag-card-title">' + c.t + '</div>' +
       '<div class="diag-card-desc">' + c.d + '</div>' +
@@ -84,7 +101,7 @@ function buildSections() {
 
 function buildHomework() {
   var hwScroll = document.getElementById('hwScroll');
-  HOMEWORK_DATA.forEach(function(h) {
+  HOMEWORK_DATA.forEach(function (h) {
     hwScroll.innerHTML += '<div class="hw-book"><div class="hw-book-cover">' +
       '<div class="hw-cover-bg ' + h.cls + '"></div>' +
       '<div class="hw-cover-shine"></div><div class="hw-inner-border"></div>' +
