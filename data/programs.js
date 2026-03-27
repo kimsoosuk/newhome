@@ -112,32 +112,32 @@ var DIAGNOSTICS_DATA = [
 var RECOMMEND_DATA = [
   {
     t: '경제가 중요해!',
-    pub: '첫번째펭귄',
-    img: 'https://image.yes24.com/goods/131564113/XL',
-    href: 'https://product.kyobobook.co.kr/detail/S000213342857'
+    pub: '리듬문고',
+    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000217060441.jpg',
+    href: 'https://product.kyobobook.co.kr/detail/S000217060441'
   },
   {
     t: '반갑다, 논리야',
     pub: '사계절',
-    img: 'https://image.yes24.com/goods/90553196/XL',
+    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000201433935.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000201433935'
   },
   {
     t: '수학 개념 사전',
     pub: '동양북스',
-    img: 'https://image.yes24.com/goods/138027498/XL',
+    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000215829548.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000215829548'
   },
   {
     t: '친절한 경제 신문',
     pub: '썬더키즈',
-    img: 'https://image.yes24.com/goods/136503488/XL',
+    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000215015648.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000215015648'
   },
   {
     t: '어린이 한국사',
     pub: '춤추는고래',
-    img: 'https://image.yes24.com/goods/94140040/XL',
-    href: 'https://search.kyobobook.co.kr/search?keyword=%ED%86%A0%EB%8B%A5%ED%86%A0%EB%8B%A5+%EC%93%B8%EB%AA%A8+%EC%9E%88%EB%8A%94+%EC%B4%88%EB%93%B1+%EC%96%B4%EB%A6%B0%EC%9D%B4+%ED%95%9C%EA%B5%AD%EC%82%AC'
+    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000200114495.jpg',
+    href: 'https://product.kyobobook.co.kr/detail/S000200114495'
   },
 ];

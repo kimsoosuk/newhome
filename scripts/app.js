@@ -10,6 +10,7 @@
   initChat();
   initTimer();
   initDock();
+  initLanding();
 
   // 스크롤 애니메이션
   var obs = new IntersectionObserver(function (entries) {

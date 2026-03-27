@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════
    chat.css — 노트 필담 채팅 패널
+   3-state: close / partial / full
    ═══════════════════════════════════════ */
 :root {
   --note-line-h: 32px;
@@ -21,37 +22,48 @@
   overflow: hidden;
 }
 
+/* ── 3-state 모드 ── */
 .chat-panel[data-mode="full"] {
-  width: 100vw
+  width: 100vw;
 }
 
-.chat-panel[data-mode="half"] {
-  width: 50vw;
-  min-width: 540px
-}
-
-.chat-panel[data-mode="label"] {
-  width: 340px
+.chat-panel[data-mode="partial"] {
+  width: 340px;
 }
 
 .chat-panel[data-mode="close"] {
   transform: translateX(-100%);
-  width: 340px
+  width: 340px;
 }
 
-/* 데스크 조명 */
+/* full 모드일 때 배경 스크롤 방지 */
+body.chat-full {
+  overflow: hidden;
+}
+
+/* landing 활성 시 배경 스크롤 방지 */
+body.landing-active {
+  overflow: hidden;
+}
+
+/* 데스크 조명 — 스탠딩 라이트 효과 */
 .note-desk-light {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(ellipse 70% 50% at 50% 12%, rgba(255, 248, 225, .22) 0%, rgba(255, 248, 225, .06) 45%, transparent 72%);
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 8%,
+    rgba(255, 250, 235, .30) 0%,
+    rgba(255, 248, 225, .10) 40%,
+    transparent 70%
+  );
   opacity: 0;
-  transition: opacity 1.4s ease;
+  transition: opacity 1.8s ease;
 }
 
 .chat-panel.light-on .note-desk-light {
-  opacity: 1
+  opacity: 1;
 }
 
 /* 펼쳐진 노트 */
@@ -78,7 +90,7 @@
 }
 
 .note-page-left {
-  flex: 0 0 42%;
+  flex: 1;
   border-radius: 3px 0 0 3px;
   box-shadow: inset -8px 0 16px -8px rgba(0, 0, 0, .12);
 }
@@ -130,20 +142,20 @@
   object-fit: cover;
   border: 2px solid rgba(91, 58, 122, .15);
   margin-bottom: 12px;
-  opacity: .65
+  opacity: .65;
 }
 
 .note-left-name {
   font-family: 'KCC-Bangjeonghwan', cursive;
   font-size: 15px;
   color: #5a4a3e;
-  margin-bottom: 3px
+  margin-bottom: 3px;
 }
 
 .note-left-sub {
   font-size: 10px;
   color: #aaa;
-  letter-spacing: 1px
+  letter-spacing: 1px;
 }
 
 .note-left-content {
@@ -156,7 +168,7 @@
   display: none;
   font-size: 13px;
   color: #555;
-  line-height: var(--note-line-h)
+  line-height: var(--note-line-h);
 }
 
 /* 우측 채팅 */
@@ -172,7 +184,7 @@
 }
 
 .note-chat-area::-webkit-scrollbar {
-  display: none
+  display: none;
 }
 
 /* 메시지 */
@@ -203,43 +215,29 @@
 }
 
 .note-msg.visible {
-  animation: noteWrite .35s ease forwards
+  animation: noteWrite .35s ease forwards;
 }
 
 .note-msg.user.visible {
-  animation: noteWriteR .35s ease forwards
+  animation: noteWriteR .35s ease forwards;
 }
 
 .note-msg-spacer {
   height: var(--note-line-h);
-  flex-shrink: 0
+  flex-shrink: 0;
 }
 
 @keyframes noteWrite {
-  from {
-    opacity: 0;
-    transform: translateX(-3px)
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0)
-  }
+  from { opacity: 0; transform: translateX(-3px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes noteWriteR {
-  from {
-    opacity: 0;
-    transform: translateX(3px)
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0)
-  }
+  from { opacity: 0; transform: translateX(3px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-/* 모바일 헤더 */
+/* 모바일 헤더 — 맨 위에 위치 */
 .note-mobile-header {
   display: none;
   align-items: center;
@@ -248,7 +246,8 @@
   background: var(--note-bg);
   border-bottom: 1px solid rgba(0, 0, 0, .06);
   position: relative;
-  z-index: 4
+  z-index: 4;
+  order: -1;
 }
 
 .note-mobile-avatar {
@@ -256,7 +255,7 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid var(--brand-light)
+  border: 1.5px solid var(--brand-light);
 }
 
 .note-mobile-title {
@@ -264,14 +263,14 @@
   font-weight: 700;
   font-size: 16px;
   color: var(--text-primary);
-  flex: 1
+  flex: 1;
 }
 
 .note-close-mobile {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px
+  padding: 4px;
 }
 
 /* 입력 */
@@ -283,7 +282,7 @@
   background: #eae6e0;
   border-top: 1px solid rgba(0, 0, 0, .06);
   position: relative;
-  z-index: 4
+  z-index: 4;
 }
 
 .note-input {
@@ -295,11 +294,11 @@
   font-family: 'GowunBatang-Regular', serif;
   outline: none;
   background: var(--note-bg);
-  color: #333
+  color: #333;
 }
 
 .note-input:focus {
-  border-color: var(--brand)
+  border-color: var(--brand);
 }
 
 .note-send-btn {
@@ -312,16 +311,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0
+  flex-shrink: 0;
 }
 
 .note-send-btn:hover {
-  background: var(--brand-dark)
+  background: var(--brand-dark);
 }
 
 .note-send-btn svg {
   width: 16px;
-  height: 16px
+  height: 16px;
 }
 
 /* 리사이즈 버튼 */
@@ -331,7 +330,7 @@
   right: 10px;
   z-index: 10;
   display: flex;
-  gap: 4px
+  gap: 4px;
 }
 
 .note-resize-btn {
@@ -345,23 +344,23 @@
   align-items: center;
   justify-content: center;
   color: #888;
-  transition: all .2s
+  transition: all .2s;
 }
 
 .note-resize-btn:hover {
   background: rgba(255, 255, 255, .85);
-  color: #555
+  color: #555;
 }
 
 .note-resize-btn.active {
   background: var(--brand-light);
   color: var(--brand);
-  border-color: var(--brand)
+  border-color: var(--brand);
 }
 
 .note-resize-btn svg {
   width: 13px;
-  height: 13px
+  height: 13px;
 }
 
 /* 북마크 */
@@ -381,12 +380,12 @@
   box-shadow: 2px 0 6px rgba(0, 0, 0, .08);
   opacity: 0;
   pointer-events: none;
-  transition: opacity .3s
+  transition: opacity .3s;
 }
 
-.chat-panel[data-mode="close"]~.chat-bookmark {
+.chat-panel[data-mode="close"] ~ .chat-bookmark {
   opacity: 1;
-  pointer-events: auto
+  pointer-events: auto;
 }
 
 .chat-bookmark svg {
@@ -396,36 +395,19 @@
   stroke-width: 2.5;
   fill: none;
   stroke-linecap: round;
-  stroke-linejoin: round
+  stroke-linejoin: round;
 }
 
-/* 모드별 좌측 토글 */
-.chat-panel[data-mode="label"] .note-page-left,
-.chat-panel[data-mode="label"] .note-binding {
-  display: none
+/* 모드별 좌측 토글 — partial 모드에서 좌측 페이지 숨김 */
+.chat-panel[data-mode="partial"] .note-page-left,
+.chat-panel[data-mode="partial"] .note-binding {
+  display: none;
 }
 
 /* 반응형 - PC */
 @media (min-width:769px) {
   .note-mobile-header {
-    display: none !important
-  }
-
-  .bulletin-board {
-    margin-left: 340px;
-    transition: margin-left .4s cubic-bezier(.2, .8, .2, 1)
-  }
-
-  .chat-panel[data-mode="close"]~.bulletin-board {
-    margin-left: 0
-  }
-
-  .chat-panel[data-mode="half"]~.bulletin-board {
-    margin-left: 50vw
-  }
-
-  .chat-panel[data-mode="full"]~.bulletin-board {
-    margin-left: 100vw
+    display: none !important;
   }
 }
 
@@ -438,11 +420,11 @@
     right: 0;
     z-index: 300;
     transform: translateX(-100%);
-    border-radius: 0
+    border-radius: 0;
   }
 
   .chat-panel.mobile-open {
-    transform: translateX(0) !important
+    transform: translateX(0) !important;
   }
 
   .note-spread {
@@ -450,54 +432,54 @@
     border-radius: 0;
     background: transparent;
     padding: 0;
-    box-shadow: none
+    box-shadow: none;
   }
 
   .note-page-left,
   .note-binding {
-    display: none !important
+    display: none !important;
   }
 
   .note-page-right {
     border-radius: 0;
-    box-shadow: none
+    box-shadow: none;
   }
 
   .note-mobile-header {
-    display: flex !important
+    display: flex !important;
   }
 
   .note-resize-controls {
-    display: none
+    display: none;
   }
 
   .note-input-row {
-    background: var(--note-bg)
+    background: var(--note-bg);
   }
 
   .note-input {
     font-size: 16px;
-    padding: 14px 20px
+    padding: 14px 20px;
   }
 
   .chat-bookmark {
     width: 14px;
     height: 42px;
-    border-radius: 0 5px 5px 0
+    border-radius: 0 5px 5px 0;
   }
 
   .chat-bookmark svg {
     width: 10px;
-    height: 10px
+    height: 10px;
   }
 
-  .chat-panel:not(.mobile-open)~.chat-bookmark {
+  .chat-panel:not(.mobile-open) ~ .chat-bookmark {
     opacity: 1;
-    pointer-events: auto
+    pointer-events: auto;
   }
 
-  .chat-panel.mobile-open~.chat-bookmark {
+  .chat-panel.mobile-open ~ .chat-bookmark {
     opacity: 0;
-    pointer-events: none
+    pointer-events: none;
   }
 }

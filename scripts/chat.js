@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════
    scripts/chat.js — 노트 필담 채팅
    API 연동 + 한 줄씩 쓰기 + 연필 소리
+   3-state: close / partial / full
    ═══════════════════════════════════════ */
 
 function initChat() {
@@ -14,6 +15,7 @@ function initChat() {
   var resizeBtns = document.querySelectorAll('.note-resize-btn');
   var isMobile = window.innerWidth <= 768;
   var greeted = false;
+  var sending = false; // 중복 전송 방지
   var chatHistory = [];
 
   // ── 연필 소리 (Web Audio API) ──
@@ -50,14 +52,12 @@ function initChat() {
   // ── 메시지 추가 (한 줄씩 적히는 효과) ──
   function addMessage(text, role, onDone) {
     initAudio();
-    // 이전 메시지와 간격
     if (chatArea.children.length > 0) {
       var sp = document.createElement('div');
       sp.className = 'note-msg-spacer';
       chatArea.appendChild(sp);
     }
 
-    // 텍스트를 줄 단위로 분할 (약 18자 기준)
     var lines = splitToLines(text, 18);
     var delay = 0;
 
@@ -79,18 +79,21 @@ function initChat() {
   }
 
   function splitToLines(text, maxLen) {
-    var words = text.split('');
-    var lines = [];
+    var result = [];
     var cur = '';
-    for (var i = 0; i < words.length; i++) {
-      cur += words[i];
-      if (cur.length >= maxLen && (words[i] === ' ' || words[i] === '.' || words[i] === ',' || words[i] === '!' || words[i] === '?' || words[i] === '요' || words[i] === '다' || words[i] === '는' || words[i] === '을' || words[i] === '를')) {
-        lines.push(cur.trim());
-        cur = '';
+    for (var i = 0; i < text.length; i++) {
+      cur += text[i];
+      // 줄 길이 도달 시 자연스러운 위치에서 분할
+      if (cur.length >= maxLen) {
+        var ch = text[i];
+        if (ch === ' ' || ch === '.' || ch === ',' || ch === '!' || ch === '?') {
+          result.push(cur.trim());
+          cur = '';
+        }
       }
     }
-    if (cur.trim()) lines.push(cur.trim());
-    return lines.length ? lines : [text];
+    if (cur.trim()) result.push(cur.trim());
+    return result.length ? result : [text];
   }
 
   // ── API 호출 ──
@@ -117,24 +120,41 @@ function initChat() {
       });
   }
 
-  // ── 메시지 전송 ──
+  // ── 메시지 전송 (중복 방지) ──
   function sendMsg() {
+    if (sending) return;
     var t = input.value.trim();
     if (!t) return;
+    sending = true;
     input.value = '';
     addMessage(t, 'user');
 
     setTimeout(function () {
       callAPI(t, function (reply) {
-        addMessage(reply, 'ai');
+        addMessage(reply, 'ai', function () {
+          sending = false;
+        });
       });
     }, 300);
   }
 
   sendBtn.addEventListener('click', sendMsg);
-  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendMsg(); });
 
-  // ── 인사 ──
+  // ── IME 한글 입력 중복 방지 ──
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.isComposing) {
+      e.preventDefault();
+      sendMsg();
+    }
+  });
+  // compositionend 이벤트로 한글 조합 완료 후 Enter 처리
+  var compositionJustEnded = false;
+  input.addEventListener('compositionend', function () {
+    compositionJustEnded = true;
+    setTimeout(function () { compositionJustEnded = false; }, 100);
+  });
+
+  // ── 인사 (한 번만) ──
   function greet() {
     if (greeted) return;
     greeted = true;
@@ -147,26 +167,39 @@ function initChat() {
     }, 800);
   }
 
-  // ── 리사이즈 모드 (PC/태블릿) ──
+  // 외부에서 호출 가능하도록
+  initChat._greet = greet;
+
+  // ── 리사이즈 모드 (3-state: close / partial / full) ──
   function setMode(mode) {
     cp.setAttribute('data-mode', mode);
     resizeBtns.forEach(function (b) {
       b.classList.toggle('active', b.getAttribute('data-mode') === mode);
     });
-    // content-area margin 업데이트
     var ca = document.getElementById('contentArea');
     var bb = document.getElementById('bulletin');
+
     if (mode === 'close') {
       document.body.classList.add('chat-closed');
+      document.body.classList.remove('chat-full');
       if (ca) ca.style.marginLeft = '0';
       if (bb) bb.style.marginLeft = '0';
-    } else {
+    } else if (mode === 'full') {
       document.body.classList.remove('chat-closed');
-      var w = mode === 'full' ? '100vw' : mode === 'half' ? '50vw' : '340px';
-      if (ca && window.innerWidth > 768) ca.style.marginLeft = w;
-      if (bb && window.innerWidth > 768) bb.style.marginLeft = w;
+      document.body.classList.add('chat-full');
+      if (ca && window.innerWidth > 768) ca.style.marginLeft = '100vw';
+      if (bb && window.innerWidth > 768) bb.style.marginLeft = '100vw';
+    } else {
+      // partial (~340px)
+      document.body.classList.remove('chat-closed');
+      document.body.classList.remove('chat-full');
+      if (ca && window.innerWidth > 768) ca.style.marginLeft = '340px';
+      if (bb && window.innerWidth > 768) bb.style.marginLeft = '340px';
     }
   }
+
+  // 외부에서 호출 가능하도록
+  initChat._setMode = setMode;
 
   resizeBtns.forEach(function (b) {
     b.addEventListener('click', function () {
@@ -188,7 +221,7 @@ function initChat() {
   // ── 북마크 & 독 네비게이션 ──
   bookmark.addEventListener('click', function () {
     if (isMobile) { openMobile(); }
-    else { setMode('label'); greet(); }
+    else { setMode('partial'); greet(); }
   });
 
   dockChat.addEventListener('click', function (e) {
@@ -196,8 +229,9 @@ function initChat() {
     if (isMobile) { openMobile(); }
     else {
       var cur = cp.getAttribute('data-mode');
-      if (cur === 'close') { setMode('label'); }
-      else { setMode('half'); }
+      if (cur === 'close') { setMode('partial'); }
+      else if (cur === 'partial') { setMode('full'); }
+      else { setMode('partial'); }
       greet();
     }
   });
@@ -207,16 +241,11 @@ function initChat() {
     cp.classList.add('light-on');
   }, 600);
 
-  // ── 초기 모드 ──
+  // ── 초기 모드: close (랜딩 페이지 사용 시) ──
   if (isMobile) {
-    cp.setAttribute('data-mode', 'label');
+    cp.setAttribute('data-mode', 'close');
   } else {
-    setMode('label');
-    // PC에서 채팅 패널이 보이면 인사
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) greet(); });
-    }, { threshold: 0.1 });
-    obs.observe(cp);
+    setMode('close');
   }
 
   // 리사이즈 감지

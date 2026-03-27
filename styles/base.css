@@ -39,11 +39,12 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   padding-bottom: 60px;
-  /* 종이 텍스처 — 거의 순백에 아주 미세한 노이즈 */
+  /* 종이 텍스처 — 거의 순백 화이트에 아주 미세한 종이 질감 (화이트 벽지 느낌) */
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(245, 240, 232, .3) 0%, transparent 70%),
-    radial-gradient(ellipse at 80% 30%, rgba(240, 235, 228, .2) 0%, transparent 60%);
-  background-color: #fefefe;
+    radial-gradient(ellipse at 20% 50%, rgba(242, 238, 230, .35) 0%, transparent 65%),
+    radial-gradient(ellipse at 80% 30%, rgba(238, 234, 226, .25) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 80%, rgba(245, 240, 232, .2) 0%, transparent 60%);
+  background-color: #fefdfb;
 }
 
 /* SVG 노이즈 텍스처 오버레이 */
@@ -53,8 +54,8 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: .018;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: .04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
 }
 
@@ -126,21 +127,8 @@ body::before {
 .content-area {
   flex: 1;
   min-width: 0;
-  margin-left: 340px;
+  margin-left: 0;
   transition: margin-left .4s cubic-bezier(.2, .8, .2, 1);
-}
-
-.chat-panel[data-mode="close"]~.main-layout .content-area,
-body.chat-closed .content-area {
-  margin-left: 0
-}
-
-.chat-panel[data-mode="half"]~.main-layout .content-area {
-  margin-left: 50vw
-}
-
-.chat-panel[data-mode="full"]~.main-layout .content-area {
-  margin-left: 100vw
 }
 
 /* ═══ 진단 카드 ═══ */
