@@ -162,6 +162,13 @@ function initChat() {
   // ── 인사 (한 번만) ──
   function greet() {
     if (greeted) return;
+    
+    // 이미 대화가 진행 중이면 (랜딩에서 바로 질문해서 들어온 경우 등) 인사를 생략
+    if (chatHistory.length > 0 || chatArea.children.length > 0) {
+      greeted = true;
+      return;
+    }
+
     greeted = true;
     setTimeout(function () {
       addMessage('안녕! 반가워', 'ai', function () {
@@ -174,6 +181,21 @@ function initChat() {
 
   // 외부에서 호출 가능하도록
   initChat._greet = greet;
+
+  // ── 대화 새로고침 ──
+  var refreshBtn = document.getElementById('noteRefreshBtn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function() {
+      // 채팅 내용 초기화
+      chatArea.innerHTML = '';
+      chatHistory = [];
+      greeted = false;
+      sending = false;
+      
+      // 다시 인사하기
+      greet();
+    });
+  }
 
   // ── 리사이즈 모드 (3-state: close / partial / full) ──
   function setMode(mode) {

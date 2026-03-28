@@ -113,31 +113,31 @@ var RECOMMEND_DATA = [
   {
     t: '경제가 중요해!',
     pub: '리듬문고',
-    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000217060441.jpg',
+    img: 'https://res.cloudinary.com/dms5vyofw/image/upload/v1774658315/%E1%84%80%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A6%E1%84%80%E1%85%A1%E1%84%8C%E1%85%AE%E1%86%BC%E1%84%8B%E1%85%AD%E1%84%92%E1%85%A2_mbbqtq.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000217060441'
   },
   {
     t: '반갑다, 논리야',
     pub: '사계절',
-    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000201433935.jpg',
+    img: 'https://res.cloudinary.com/dms5vyofw/image/upload/v1774658314/%E1%84%87%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A1%E1%86%B8%E1%84%83%E1%85%A1_%E1%84%82%E1%85%A9%E1%86%AB%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A3_ybbfpg.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000201433935'
   },
   {
     t: '수학 개념 사전',
     pub: '동양북스',
-    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000215829548.jpg',
+    img: 'https://res.cloudinary.com/dms5vyofw/image/upload/v1774658314/%E1%84%89%E1%85%AE%E1%84%92%E1%85%A1%E1%86%A8_%E1%84%80%E1%85%A2%E1%84%82%E1%85%A7%E1%86%B7_%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB_qeewql.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000215829548'
   },
   {
     t: '친절한 경제 신문',
     pub: '썬더키즈',
-    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000215015648.jpg',
+    img: 'https://res.cloudinary.com/dms5vyofw/image/upload/v1774658314/%E1%84%8E%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%AF%E1%84%92%E1%85%A1%E1%86%AB_%E1%84%80%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A6%E1%84%89%E1%85%B5%E1%86%AB%E1%84%86%E1%85%AE%E1%86%AB_d9gtuy.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000215015648'
   },
   {
     t: '어린이 한국사',
     pub: '춤추는고래',
-    img: 'https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/S000200114495.jpg',
+    img: 'https://res.cloudinary.com/dms5vyofw/image/upload/v1774658314/%E1%84%8B%E1%85%A5%E1%84%85%E1%85%B5%E1%86%AB%E1%84%8B%E1%85%B5_%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%AE%E1%86%A8%E1%84%89%E1%85%A1_fx78uy.jpg',
     href: 'https://product.kyobobook.co.kr/detail/S000200114495'
   },
 ];
