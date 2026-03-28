@@ -37,6 +37,11 @@
       <div class="landing-subtitle">스스로 공부하는 힘</div>
       <div class="landing-input-wrap">
         <input class="landing-input" id="landingInput" type="text" placeholder="모르는 걸 물어보자">
+        <button class="landing-send-btn" id="landingSendBtn" title="질문 전송">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          </svg>
+        </button>
       </div>
       <button class="landing-enter-btn" id="landingEnterBtn">수석의방 입장</button>
       <div class="landing-gold-accent"></div>
@@ -143,17 +148,18 @@
         <div class="note-page note-page-right">
           <div class="note-right-lines"></div>
           <div class="note-chat-area" id="noteChatArea"></div>
+          
+          <div class="note-input-row">
+            <input class="note-input" id="aiInput" type="text" placeholder="선생님에게 말해보기...">
+            <button class="note-send-btn" id="aiSendBtn">
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="note-input-row">
-        <input class="note-input" id="aiInput" type="text" placeholder="김수석 선생님에게 물어보세요...">
-        <button class="note-send-btn" id="aiSendBtn">
-          <svg viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" fill="none" />
-          </svg>
-        </button>
-      </div>
+      
       <div class="note-resize-controls" id="noteResizeControls">
         <button class="note-resize-btn" data-mode="full" title="전체 화면"><svg viewBox="0 0 24 24">
             <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />

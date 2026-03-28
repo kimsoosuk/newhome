@@ -58,7 +58,12 @@ function initChat() {
       chatArea.appendChild(sp);
     }
 
-    var lines = splitToLines(text, 18);
+    // 화면 너비에 맞춰 줄바꿈 글자 수 계산 (채팅 영역의 80% 정도만 사용하도록)
+    var availableWidth = chatArea.clientWidth * 0.80;
+    var maxLen = Math.floor(availableWidth / 15);
+    if (maxLen < 18) maxLen = 18;
+
+    var lines = splitToLines(text, maxLen);
     var delay = 0;
 
     lines.forEach(function (line, idx) {
