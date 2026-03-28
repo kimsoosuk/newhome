@@ -229,9 +229,11 @@ function initChat() {
   initChat._setMode = setMode;
 
   resizeBtns.forEach(function (b) {
-    b.addEventListener('click', function () {
-      setMode(b.getAttribute('data-mode'));
-    });
+    if (b.hasAttribute('data-mode')) {
+      b.addEventListener('click', function () {
+        setMode(b.getAttribute('data-mode'));
+      });
+    }
   });
 
   // ── 모바일 토글 ──

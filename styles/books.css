@@ -15,7 +15,7 @@
 }
 
 .book-item:hover {
-  transform: translateY(-8px) scale(1.06);
+  transform: translateY(-8px) scale(1.03);
   z-index: 10
 }
 
@@ -243,8 +243,10 @@
 
 /* ═══ 추천도서 (이미지 표지) ═══ */
 .cover-img .book-cover-bg {
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
+  background-color: transparent;
 }
 
 .cover-img .book-cover-inner-border {

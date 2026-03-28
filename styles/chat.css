@@ -53,12 +53,10 @@ body.landing-active {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse 70% 50% at 50% 8%,
-    rgba(255, 250, 235, .30) 0%,
-    rgba(255, 248, 225, .10) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse 70% 50% at 50% 8%,
+      rgba(255, 250, 235, .30) 0%,
+      rgba(255, 248, 225, .10) 40%,
+      transparent 70%);
   opacity: 0;
   transition: opacity 1.8s ease;
 }
@@ -196,7 +194,8 @@ body.landing-active {
   word-break: keep-all;
   position: relative;
   z-index: 1;
-  max-width: 80%; /* 요청에 따라 80% 정도만 사용 */
+  max-width: 90%;
+  /* 90%로 수정할게요 */
   opacity: 0;
 }
 
@@ -229,13 +228,27 @@ body.landing-active {
 }
 
 @keyframes noteWrite {
-  from { opacity: 0; transform: translateX(-3px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes noteWriteR {
-  from { opacity: 0; transform: translateX(3px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* 모바일 헤더 — 맨 위에 위치 */
@@ -328,8 +341,8 @@ body.landing-active {
 /* 리사이즈 버튼 */
 .note-resize-controls {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 16px;
+  right: 20px;
   z-index: 10;
   display: flex;
   gap: 4px;
@@ -385,7 +398,7 @@ body.landing-active {
   transition: opacity .3s;
 }
 
-.chat-panel[data-mode="close"] ~ .chat-bookmark {
+.chat-panel[data-mode="close"]~.chat-bookmark {
   opacity: 1;
   pointer-events: auto;
 }
@@ -475,12 +488,12 @@ body.landing-active {
     height: 10px;
   }
 
-  .chat-panel:not(.mobile-open) ~ .chat-bookmark {
+  .chat-panel:not(.mobile-open)~.chat-bookmark {
     opacity: 1;
     pointer-events: auto;
   }
 
-  .chat-panel.mobile-open ~ .chat-bookmark {
+  .chat-panel.mobile-open~.chat-bookmark {
     opacity: 0;
     pointer-events: none;
   }

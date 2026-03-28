@@ -55,23 +55,30 @@ export default {
 - 무조건 1~2문장 이내로 짧게 대답할 것.
 - "수석의방"이나 프로그램에 대해 물을 때만 가볍게 안내.`;
 
-      // Gemini 3.1 Flash Lite Preview API용 메시지 변환
-      const geminiContents = messages.map(msg => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.content }],
-      }));
-
-      // Gemini 3.1 Flash Lite Preview API 호출
+      // 사용자가 원하시는 3.1 모델명 적용 (수동 복구하신 부분)
       const modelName = 'gemini-3.1-flash-lite-preview';
       const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${geminiApiKey}`;
+
+      // (어제 저녁 작동했던 방식 복구) system_instruction 대신 배열의 첫 번째 대화로 주입
+      const geminiContents = [
+        {
+          role: 'user',
+          parts: [{ text: systemPrompt }]
+        },
+        {
+          role: 'model',
+          parts: [{ text: '네, 알겠습니다. 김수석 선생님으로서 답변하겠습니다.' }]
+        },
+        ...messages.map(msg => ({
+          role: msg.role === 'user' ? 'user' : 'model',
+          parts: [{ text: msg.content }],
+        }))
+      ];
 
       const geminiResponse = await fetch(geminiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: systemPrompt }]
-          },
           contents: geminiContents,
           generationConfig: {
             temperature: 0.8,
@@ -89,6 +96,10 @@ export default {
       });
 
       const geminiData = await geminiResponse.json();
+
+      if (!geminiResponse.ok) {
+        throw new Error(geminiData.error?.message || `Gemini API Error: HTTP ${geminiResponse.status}`);
+      }
 
       let reply = '미안, 지금은 답변이 어려워. 잠시 후에 다시 물어봐줄래?';
 
