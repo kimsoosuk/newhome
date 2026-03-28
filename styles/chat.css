@@ -338,10 +338,9 @@ body.landing-active {
   height: 16px;
 }
 
-/* 리사이즈 버튼 */
 .note-resize-controls {
   position: absolute;
-  top: 16px;
+  top: 20px;
   right: 20px;
   z-index: 10;
   display: flex;

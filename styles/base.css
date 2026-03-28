@@ -54,7 +54,7 @@ body::before {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: .12; /* 티가 안난다고 하셔서 더 높음 */
+  opacity: .15;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
@@ -67,6 +67,11 @@ body::before {
   position: relative;
   z-index: 1;
   overflow: visible;
+}
+
+/* 진단 섹션 특수 배경 덮어쓰기 방지 위해 !important 대신 구체적 적용 */
+#sec-diag {
+  background: #fff !important;
 }
 
 .programs-section::after {
@@ -107,7 +112,8 @@ body::before {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 24px 14px 44px; /* 호버 시 위쪽 잘림 방지를 위해 top padding 증가 */
+  padding: 24px 14px 44px;
+  /* 호버 시 위쪽 잘림 방지를 위해 top padding 증가 */
   scrollbar-width: none;
   overflow-y: visible;
 }
@@ -139,7 +145,8 @@ body::before {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 16px 0 20px; /* 위쪽 여백 확보 */
+  padding: 16px 0 20px;
+  /* 위쪽 여백 확보 */
   scrollbar-width: none
 }
 
