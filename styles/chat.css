@@ -177,7 +177,7 @@ body.landing-active {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 15px 12px 15px 20px;
+  padding: 45px 12px 15px 20px; /* 창 조절 버튼과의 겹침 방지를 위해 상단 여백 증가 */
   display: flex;
   flex-direction: column;
 }
