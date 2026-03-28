@@ -2,6 +2,17 @@
    chat.css — 노트 필담 채팅 패널
    3-state: close / partial / full
    ═══════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
+
+@font-face {
+    font-family: 'KccBangjeonghwan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-2@1.0/KCCBangJeonghwan.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
   --note-line-h: 32px;
   --note-bg: #faf8f4;
@@ -145,7 +156,7 @@ body.landing-active {
 }
 
 .note-left-name {
-  font-family: 'KCC-Bangjeonghwan', cursive;
+  font-family: 'KccBangjeonghwan', 'GowunBatang-Regular', cursive;
   font-size: 15px;
   color: #5a4a3e;
   margin-bottom: 3px;
@@ -177,7 +188,7 @@ body.landing-active {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 45px 12px 15px 20px; /* 창 조절 버튼과의 겹침 방지를 위해 상단 여백 증가 */
+  padding: 47px 12px 15px 20px; /* 창 조절 버튼과의 겹침 방지 + 32px 간격 줄눈(grid)에 완벽하게 텍스트를 정렬하기 (15+32=47px) */
   display: flex;
   flex-direction: column;
 }
@@ -200,7 +211,7 @@ body.landing-active {
 }
 
 .note-msg.ai {
-  font-family: 'KCC-Bangjeonghwan', cursive;
+  font-family: 'KccBangjeonghwan', 'GowunBatang-Regular', cursive;
   color: #3a3a3a;
   align-self: flex-start;
   margin-right: 20%;

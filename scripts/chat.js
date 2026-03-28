@@ -101,82 +101,25 @@ function initChat() {
     return result.length ? result : [text];
   }
 
-  // 외부 API 키 (워커 우회를 위해 여기에 직접 삽입하세요)
-  var GEMINI_API_KEY = 'AIzaSyCLkHK_uxf0-O9dKeKRBCOxHUZGXDIs-wE';
-
-  // ── API 호출 (Worker 우회 및 브라우저 직접 호출) ──
+  // ── API 호출 (Worker 경유) ──
   function callAPI(userMsg, callback) {
     chatHistory.push({ role: 'user', content: userMsg });
 
-    if (!GEMINI_API_KEY || GEMINI_API_KEY.trim() === '') {
-      alert("API 키가 누락되었습니다.");
-      return;
-    }
-
-    var systemPrompt = `당신은 김수석 선생님입니다. 공부법을 가르치며 학생의 마음을 다독이는 멘토입니다.
-
-성격 및 대화 가이드:
-- 절대로 사용자를 '학생'이라고 부르지 마세요. 그냥 부드러운 반말을 사용하세요.
-- 본인을 지칭할 때 '수석이가~' 라는 표현을 쓰지 마세요. '선생님이~' 혹은 '내가~' 라는 지칭하는 표현도 쓰지 마세요.
-- 답변은 무조건 1~2문장으로 아주 짧고 간결하게 작성하세요. 절대 길게 말하지 마세요.
-- 질문이나 고민을 들었을 때 바로 완성된 해결책을 던져주기보다는, 먼저 공감하고 상대방의 생각이나 기분을 물어보는 질문을 던져주세요.
-- "~해봐", "~하자", "~거야" 등 부드럽고 친근한 반말체를 사용하세요.
-
-전문 분야:
-- 공부법, 학습 습관, 멘탈 관리
-
-규칙:
-- 항상 한국어로 답변
-- 무조건 1~2문장 이내로 짧게 대답할 것.
-- "수석의방"이나 프로그램에 대해 물을 때만 가볍게 안내.`;
-
-    var geminiContents = [
-      { role: 'user', parts: [{ text: systemPrompt }] },
-      { role: 'model', parts: [{ text: '네, 알겠습니다. 김수석 선생님으로서 답변하겠습니다.' }] }
-    ];
-
-    for (var i = 0; i < chatHistory.length; i++) {
-      geminiContents.push({
-        role: chatHistory[i].role === 'user' ? 'user' : 'model',
-        parts: [{ text: chatHistory[i].content }]
-      });
-    }
-
-    var modelName = 'gemini-3.1-flash-lite-preview';
-    var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + GEMINI_API_KEY;
-
-    fetch(url, {
+    fetch('https://home.kimsoosuk1.workers.dev/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: geminiContents,
-        generationConfig: {
-          temperature: 0.8,
-          topP: 0.9,
-          topK: 40,
-          maxOutputTokens: 512,
-        },
-        safetySettings: [
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
-        ],
+        apiKey: 'kimsoosuk',
+        messages: chatHistory
       })
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (data.error) {
-          console.error('API Error:', data.error);
-          var errReply = '미안, 지금은 답변이 어려워. \n\n(상세 오류: ' + (data.error.message || 'Unknown') + ')';
-          chatHistory.push({ role: 'assistant', content: errReply });
-          callback(errReply);
-          return;
-        }
-
-        var reply = '미안, 지금은 답변이 어려워. 잠시 후에 다시 물어봐줄래?';
-        if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
-          reply = data.candidates[0].content.parts[0].text;
+        var reply = data.reply || '미안, 다시 한 번 물어봐줄래?';
+        
+        // [디버깅 임시 코드] 에러 원인을 화면에서 파악할 수 있도록 덧붙임
+        if (data.error && data.error.length > 0) {
+          reply += '\n\n(상세 오류: ' + data.error + ')';
         }
 
         chatHistory.push({ role: 'assistant', content: reply });
