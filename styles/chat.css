@@ -156,7 +156,7 @@ body.landing-active {
 }
 
 .note-left-name {
-  font-family: 'KccBangjeonghwan', 'GowunBatang-Regular', cursive;
+  font-family: 'Gowun Batang', 'KccBangjeonghwan', cursive;
   font-size: 15px;
   color: #5a4a3e;
   margin-bottom: 3px;
@@ -211,14 +211,14 @@ body.landing-active {
 }
 
 .note-msg.ai {
-  font-family: 'KccBangjeonghwan', 'GowunBatang-Regular', cursive;
+  font-family: 'Gowun Batang', 'KccBangjeonghwan', cursive;
   color: #3a3a3a;
   align-self: flex-start;
   margin-right: 20%;
 }
 
 .note-msg.user {
-  font-family: 'GowunBatang-Regular', serif;
+  font-family: 'Gowun Batang', serif;
   color: #1a3a5a;
   align-self: flex-end;
   margin-left: 20%;
