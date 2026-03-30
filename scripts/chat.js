@@ -50,9 +50,9 @@ function initChat() {
   }
 
   // ── 메시지 추가 (한 줄씩 적히는 효과) ──
-  function addMessage(text, role, onDone) {
+  function addMessage(text, role, onDone, noSpacer) {
     initAudio();
-    if (chatArea.children.length > 0) {
+    if (chatArea.children.length > 0 && !noSpacer) {
       var sp = document.createElement('div');
       sp.className = 'note-msg-spacer';
       chatArea.appendChild(sp);
@@ -177,9 +177,9 @@ function initChat() {
 
     greeted = true;
     setTimeout(function () {
-      addMessage('안녕! 반가워', 'ai', function () {
+      addMessage('안녕 반가워!', 'ai', function () {
         setTimeout(function () {
-          addMessage('오늘 하루 잘 보내고 있어?', 'ai');
+          addMessage('오늘 하루 잘 보내고 있어?', 'ai', null, true);
         }, 600);
       });
     }, 800);
