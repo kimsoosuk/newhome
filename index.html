@@ -142,30 +142,44 @@
         </button>
       </div>
       <div class="note-desk-light" id="deskLight"></div>
-      <div class="note-spread">
-        <div class="note-page note-page-left" id="noteLeft">
-          <div class="note-left-lines"></div>
-          <div class="note-left-initial" id="noteLeftInitial">
-            <img class="note-left-avatar"
-              src="https://res.cloudinary.com/dms5vyofw/image/upload/v1774507434/%E1%84%80%E1%85%B5%E1%86%B7%E1%84%89%E1%85%AE%E1%84%89%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB_%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB_%E1%84%8F%E1%85%A5%E1%86%AF%E1%84%85%E1%85%A5_%E1%84%87%E1%85%A9%E1%84%85%E1%85%A1_hxd2bm.png"
-              alt="김수석">
-            <div class="note-left-name">김수석 선생님</div>
-            <div class="note-left-sub">수석의방</div>
-          </div>
-          <div class="note-left-content" id="noteLeftContent"></div>
-        </div>
-        <div class="note-binding"></div>
-        <div class="note-page note-page-right">
-          <div class="note-right-lines"></div>
-          <div class="note-chat-area" id="noteChatArea"></div>
+      <!-- 딕셔너리 북 구조 적용 (채팅창) -->
+      <div class="bk-scene">
+        <div class="bk-shell">
+          <!-- 1. 책등 -->
+          <div class="bk-spine"></div>
           
-          <div class="note-input-row">
-            <input class="note-input" id="aiInput" type="text" placeholder="선생님에게 말해보기...">
-            <button class="note-send-btn" id="aiSendBtn">
-              <svg viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              </svg>
-            </button>
+          <!-- 2. 펼쳐진 페이지 영역 -->
+          <div class="bk-pages">
+            <!-- 중앙 입체 효과용 레이어들 -->
+            <div class="bk-gutter"></div>
+            <div class="bk-edge"></div>
+
+            <!-- [좌측 페이지] (가로줄 및 아바타/설명 보존) -->
+            <div id="left-page" class="note-page-left">
+              <div class="note-left-lines"></div>
+              <div class="note-left-initial" id="noteLeftInitial">
+                <img class="note-left-avatar" src="https://res.cloudinary.com/dms5vyofw/image/upload/v1774507434/%E1%84%80%E1%85%B5%E1%86%B7%E1%84%89%E1%85%AE%E1%84%89%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB_%E1%84%85%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AB_%E1%84%8F%E1%85%A5%E1%86%AF%E1%84%85%E1%85%A5_%E1%84%87%E1%85%A9%E1%84%85%E1%85%A1_hxd2bm.png" alt="김수석">
+                <div class="note-left-name">김수석 선생님</div>
+                <div class="note-left-sub">수석의방</div>
+              </div>
+              <div class="note-left-content" id="noteLeftContent"></div>
+            </div>
+
+            <!-- [우측 페이지] (채팅 영역 보존) -->
+            <div id="right-page" class="note-page-right">
+              <div class="note-right-lines"></div>
+              <div class="note-chat-area" id="noteChatArea"></div>
+              
+              <div class="note-input-row">
+                <input class="note-input" id="aiInput" type="text" placeholder="선생님에게 말해보기...">
+                <button class="note-send-btn" id="aiSendBtn">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>

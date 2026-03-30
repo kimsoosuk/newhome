@@ -16,7 +16,7 @@
 :root {
   --note-line-h: 32px;
   --note-bg: #faf8f4;
-  --note-line-color: rgba(100, 140, 180, .13);
+  --note-line-color: rgba(160, 146, 124, 0.4); /* 훨씬 더 선명하고 따뜻한 노트 줄눈 색상 */
 }
 
 .chat-panel {
@@ -28,8 +28,15 @@
   display: flex;
   flex-direction: column;
   transition: width .4s cubic-bezier(.2, .8, .2, 1), transform .4s cubic-bezier(.2, .8, .2, 1);
-  background: #e8e4de;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, .12), 1px 0 4px rgba(0, 0, 0, .06);
+  background: #8a7e6e;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E"), 
+    radial-gradient(
+      ellipse at 40% 30%, 
+      #9e9282 0%,
+      #7a7060 60%,
+      #605848 100%
+    );
   overflow: hidden;
   padding-bottom: calc(60px + env(safe-area-inset-bottom));
 }
@@ -76,60 +83,98 @@ body.landing-active {
   opacity: 1;
 }
 
-/* 펼쳐진 노트 */
-.note-spread {
+/* 딕셔너리 북 전체 형태 (.note-spread 대체) */
+.bk-scene {
   flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  margin: 12px;
-  background: #5a4a3e;
-  border-radius: 4px;
-  padding: 4px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .08);
-  position: relative;
-  z-index: 2;
-  min-height: 0;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp .5s ease-out;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
-.note-page {
-  background: var(--note-bg);
+/* 책의 겉껍데기 (두께감 표현) */
+.bk-shell {
   position: relative;
+  display: flex;
+  width: 100%;
+  height: var(--book-h);
+  background: var(--cover);
+  border-radius: 4px 10px 10px 4px;
+  padding: 6px 6px 6px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.25), 0 16px 48px rgba(0,0,0,.35);
+  transition: all .3s;
+}
+
+/* 왼쪽 책등 (spine) */
+.bk-spine {
+  width: 22px;
+  min-width: 22px;
+  background: linear-gradient(90deg, var(--spine), var(--cover-light) 40%, var(--cover) 70%, var(--cover-light));
+  border-radius: 4px 0 0 4px;
+  box-shadow: inset -2px 0 6px rgba(0,0,0,.4);
+  position: relative;
+}
+
+/* 실제 종이가 놓이는 영역 */
+.bk-pages {
+  flex: 1;
+  display: flex;
+  background: var(--paper);
+  border-radius: 0 6px 6px 0;
   overflow: hidden;
+  position: relative;
+  box-shadow: inset 2px 0 8px rgba(0,0,0,.06);
+}
+
+/* 가운데 접히는 부분 (Gutter) - 입체감의 핵심 */
+.bk-gutter {
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 36px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(30,24,15,.04) 15%, rgba(30,24,15,.16) 50%, rgba(30,24,15,.04) 85%, transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 우측 종이 옆면 (Edge) */
+.bk-edge {
+  position: absolute;
+  top: 4px; bottom: 4px; right: -3px;
+  width: 3px;
+  background: repeating-linear-gradient(180deg, var(--paper) 0px, var(--paper) 1px, var(--paper-edge) 1px, var(--paper-edge) 2px);
+  border-radius: 0 2px 2px 0;
+  z-index: -1;
+}
+
+/* 내부 좌우 페이지 */
+.note-page-left, .note-page-right {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-.note-page-left {
-  flex: 1;
-  border-radius: 3px 0 0 3px;
-  box-shadow: inset -8px 0 16px -8px rgba(0, 0, 0, .12);
-}
-
-.note-page-right {
-  flex: 1;
-  border-radius: 0 3px 3px 0;
-  box-shadow: inset 8px 0 16px -8px rgba(0, 0, 0, .12);
-}
-
-/* 노트 줄 */
+/* 노트 줄 (복원된 줄눈 CSS) */
 .note-right-lines,
 .note-left-lines {
   position: absolute;
-  inset: 0;
+  top: 32px; /* 상단 첫 줄 클리핑 (해상도 무관하게 마진 확보) */
+  bottom: 74px; /* 하단 채팅 입력창/버튼과 겹치지 않게 여백 추가 */
+  left: 32px; /* 좌측 가장자리 여백 (책끝/책등에 닿지 않도록) */
+  right: 32px; /* 우측 가장자리 여백 */
   z-index: 0;
   pointer-events: none;
   background-image: repeating-linear-gradient(to bottom,
       transparent 0px, transparent calc(var(--note-line-h) - 1px),
       var(--note-line-color) calc(var(--note-line-h) - 1px), var(--note-line-color) var(--note-line-h));
   background-position: 0 15px;
-}
-
-.note-binding {
-  width: 6px;
-  flex-shrink: 0;
-  background: linear-gradient(180deg, #6b5a4e, #4a3b32 50%, #6b5a4e);
-  position: relative;
-  z-index: 3;
 }
 
 /* 좌측 초기 아바타 */
@@ -152,7 +197,9 @@ body.landing-active {
   object-fit: cover;
   border: 2px solid rgba(91, 58, 122, .15);
   margin-bottom: 12px;
-  opacity: .65;
+  background: var(--paper); /* 투명도를 없애고 배경을 넣어 뒤의 가로줄을 가림 */
+  opacity: 1; /* 기존 0.65 제거 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* 약간의 입체감 부여 */
 }
 
 .note-left-name {
@@ -160,18 +207,24 @@ body.landing-active {
   font-size: 15px;
   color: #5a4a3e;
   margin-bottom: 3px;
+  background: var(--paper); /* 텍스트 뒤의 줄 가림 */
+  padding: 2px 12px;
+  border-radius: 4px;
 }
 
 .note-left-sub {
   font-size: 10px;
   color: #aaa;
   letter-spacing: 1px;
+  background: var(--paper);
+  padding: 0 8px;
+  border-radius: 4px;
 }
 
 .note-left-content {
   position: absolute;
   inset: 0;
-  padding: 20px;
+  padding: 20px 40px; /* 줄눈 안쪽으로 텍스트 배치 */
   z-index: 2;
   overflow-y: auto;
   scrollbar-width: none;
@@ -188,7 +241,7 @@ body.landing-active {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 47px 12px 15px 20px; /* 창 조절 버튼과의 겹침 방지 + 32px 간격 줄눈(grid)에 완벽하게 텍스트를 정렬하기 (15+32=47px) */
+  padding: 47px 40px 15px 40px; /* 좌우 40px로 수정해 텍스트가 줄눈 여백(32px) 안쪽에 안착하게 설계 */
   display: flex;
   flex-direction: column;
 }
@@ -424,9 +477,16 @@ body.landing-active {
 }
 
 /* 모드별 좌측 토글 — partial 모드에서 좌측 페이지 숨김 */
-.chat-panel[data-mode="partial"] .note-page-left,
-.chat-panel[data-mode="partial"] .note-binding {
+.chat-panel[data-mode="partial"] #left-page,
+.chat-panel[data-mode="partial"] .bk-spine,
+.chat-panel[data-mode="partial"] .bk-gutter {
   display: none;
+}
+.chat-panel[data-mode="partial"] .bk-shell {
+  border-radius: 10px 0 0 10px;
+}
+.chat-panel[data-mode="partial"] .bk-pages {
+  border-radius: 6px 0 0 6px;
 }
 
 /* 반응형 - PC */
@@ -446,6 +506,27 @@ body.landing-active {
     z-index: 300;
     transform: translateX(-100%);
     border-radius: 0;
+  }
+
+  .chat-panel[data-mode="full"] {
+    transform: translateX(0);
+  }
+
+  /* 딕셔너리 모바일 최적화 */
+  .bk-scene {
+    padding: 8px 4px 4px 4px;
+    margin-top: 50px; /* 모바일 헤더 공간 확보 */
+  }
+  .bk-shell {
+    height: 100%;
+    border-radius: 8px;
+    padding: 4px;
+  }
+  #left-page, .bk-gutter, .bk-spine, .bk-edge {
+    display: none !important;
+  }
+  .bk-pages, #right-page {
+    border-radius: 6px !important;
   }
 
   .chat-panel.mobile-open {
