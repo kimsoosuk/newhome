@@ -6,7 +6,7 @@ var SECTIONS_DATA = [
   {
     id: 'sec-today',
     title: '오늘 할 일',
-    sub: '오늘 학습할 프로그램',
+    sub: '오늘 공부는 오늘 끝내기',
     books: [
       { t: '공부하는<br>이유', c: '기본편', cls: 'cover-s1', href: 'https://kimsoosuk.github.io/study-reason/', lt: '공부하는 이유', ls: '기본편' },
       { t: '변환<br>사고력', c: '두정엽', cls: 'cover-m1', href: '#', lt: '변환 사고력', ls: '두정엽' },
@@ -21,7 +21,7 @@ var SECTIONS_DATA = [
   {
     id: 'sec-study',
     title: '나의 공부법',
-    sub: '공부의 기본기를 다져보세요',
+    sub: '나에게 도움되는 맞춤 공부법',
     books: [
       { t: '공부하는<br>이유', c: '기본편', cls: 'cover-s1', href: 'https://kimsoosuk.github.io/study-reason/', lt: '공부하는 이유', ls: '기본편' },
       { t: '내공부<br>스케줄짜기', c: '기본편', cls: 'cover-s2', href: 'https://kimsoosuk.github.io/myschedule/', lt: '내공부 스케줄짜기', ls: '기본편' },
@@ -32,8 +32,8 @@ var SECTIONS_DATA = [
   },
   {
     id: 'sec-mind',
-    title: '나의 머리',
-    sub: '사고력을 키우는 학습 컨텐츠',
+    title: '나의 IQ',
+    sub: '머리가 좋아지는 맞춤 사고력 학습지',
     books: [
       { t: '변환<br>사고력', c: '두정엽', cls: 'cover-m1', href: '#', lt: '변환 사고력', ls: '두정엽' },
       { t: '가치<br>사고력', c: '변연계', cls: 'cover-m2', href: '#', lt: '가치 사고력', ls: '변연계' },
@@ -42,7 +42,7 @@ var SECTIONS_DATA = [
   {
     id: 'sec-life',
     title: '나의 생활',
-    sub: '공부 체질을 만드는 생활 습관',
+    sub: '공부 잘하는 체질이 되는 생활 습관',
     books: [
       { t: '겸손', c: '공부 체질', cls: 'cover-h1', href: '#', lt: '겸손', ls: '공부 체질' },
       { t: '연표', c: '공부 체질', cls: 'cover-h2', href: '#', lt: '연표', ls: '공부 체질' },
@@ -55,16 +55,16 @@ var SECTIONS_DATA = [
   },
   {
     id: 'sec-think',
-    title: '나의 생각',
-    sub: '가치관과 사고를 정리하는 공간',
+    title: '나의 창의',
+    sub: '생각이 넓어지는 맞춤 창의력 섹션',
     books: [
       { t: '가치관<br>선생님', c: '기본편', cls: 'cover-t1', href: 'https://kimsoosuk.github.io/value/', lt: '가치관 선생님', ls: '기본편' },
     ]
   },
   {
     id: 'sec-dict',
-    title: '수석의 사전',
-    sub: '과목별 핵심 사전',
+    title: '김수석 선생님',
+    sub: '과목별 선생님께 질문해보자',
     books: [
       { t: '과학<br>사전', c: '이과편', cls: 'cover-d1', href: 'https://kimsoosuk.github.io/science_teacher/', lt: '과학 사전', ls: '이과편' },
       { t: '영어<br>사전', c: '문과편', cls: 'cover-d2', href: 'https://kimsoosuk.github.io/eng_dictionary/', lt: '영어 사전', ls: '문과편' },

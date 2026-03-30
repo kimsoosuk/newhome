@@ -13,14 +13,15 @@
   --accent: #7a5c1e;
   --accent-warm: #b8922e;
   --accent-glow: rgba(184, 146, 46, .12);
-  
-  /* 진한 남보라색 (Indigo/Violet) 커버 톤 포인트 */
-  --cover: #2a233b;        
-  --cover-light: #3f3554;  
-  --spine: #191426;        
-  
-  --gold: #ffd700;
-  --gold-dim: #d4af37;
+
+  /* 남색 바탕에 보라색이 은은하게 섞인 딥 네이비(Deep Navy) 커버 톤 포인트 */
+  --cover: #1c2135;
+  --cover-light: #2b324d;
+  --spine: #101422;
+
+  /* 조금 더 은은하고 기품있는 샴페인/앤틱 골드 톤 */
+  --gold: #d4b872;
+  --gold-dim: #b3904a;
   --font-serif: 'Gowun Batang', 'Batang', Georgia, serif;
   --font-sans: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   --book-h: min(calc(100dvh - 60px), 760px);
@@ -59,8 +60,15 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: scale(.96); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .cover-shell {
@@ -68,7 +76,7 @@
   width: 100%;
   height: var(--book-h);
   border-radius: 4px 8px 8px 4px;
-  box-shadow: 
+  box-shadow:
     -4px 0 10px rgba(0, 0, 0, .3),
     10px 10px 30px rgba(0, 0, 0, .4),
     40px 20px 60px rgba(0, 0, 0, .2);
@@ -82,16 +90,6 @@
   border-radius: 4px 0 0 4px;
   box-shadow: inset -2px 0 6px rgba(0, 0, 0, .4);
   position: relative;
-}
-.cover-spine-el::after {
-  content: '';
-  position: absolute;
-  top: 8%;
-  bottom: 8%;
-  left: 50%;
-  width: 1px;
-  background: var(--gold-dim);
-  opacity: .4;
 }
 
 /* 표지 앞면(얼굴) */
@@ -108,13 +106,16 @@
   position: relative;
   overflow: hidden;
 }
+
 .cover-face::before {
   content: '';
   position: absolute;
-  inset: 12px;
-  border: 2px solid var(--gold-dim);
-  border-radius: 4px;
-  opacity: .6;
+  inset: 22px;
+  /* 테두리를 더 안쪽으로 당김 (기존 12px) */
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  opacity: .5;
+  /* 시각적으로 선이 더 얇고 섬세하게 보이도록 투명도 조정 */
   pointer-events: none;
 }
 
@@ -126,6 +127,7 @@
   margin-bottom: 28px;
   opacity: .6;
 }
+
 .cover-icon {
   width: 80px;
   height: 80px;
@@ -133,6 +135,7 @@
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .3));
   border-radius: 50%;
 }
+
 .cover-title {
   font-size: 1.8rem;
   font-weight: 700;
@@ -140,6 +143,7 @@
   margin-bottom: 32px;
   line-height: 1.35;
 }
+
 .cover-desc {
   font-family: var(--font-sans);
   font-size: .82rem;
@@ -148,6 +152,7 @@
   margin-bottom: 36px;
   max-width: 280px;
 }
+
 .cover-desc strong {
   color: var(--gold);
   font-weight: 500;
@@ -159,6 +164,7 @@
   max-width: 300px;
   position: relative;
 }
+
 .cover-input {
   width: 100%;
   padding: 14px 48px 14px 20px;
@@ -171,15 +177,18 @@
   outline: none;
   transition: all .3s;
 }
+
 .cover-input::placeholder {
   color: rgba(196, 164, 74, .4);
   font-style: italic;
 }
+
 .cover-input:focus {
   border-color: var(--gold);
   background: rgba(255, 255, 255, .1);
   box-shadow: 0 0 20px rgba(196, 164, 74, .15);
 }
+
 .cover-sbtn {
   position: absolute;
   right: 4px;
@@ -198,8 +207,14 @@
   transition: all .25s;
   box-shadow: 0 2px 8px rgba(122, 92, 30, .3);
 }
-.cover-sbtn:hover { background: var(--accent-warm); }
-.cover-sbtn:active { transform: translateY(-50%) scale(.92); }
+
+.cover-sbtn:hover {
+  background: var(--accent-warm);
+}
+
+.cover-sbtn:active {
+  transform: translateY(-50%) scale(.92);
+}
 
 /* ---------------- CSS: 나의 단어장 영역 ---------------- */
 .vocab-section {
@@ -212,6 +227,7 @@
   min-height: 0;
   max-height: 240px;
 }
+
 .vocab-toggle {
   background: none;
   border: 1px solid rgba(196, 164, 74, .3);
@@ -227,11 +243,17 @@
   gap: 6px;
   flex-shrink: 0;
 }
+
 .vocab-toggle:hover {
   border-color: var(--gold);
   color: var(--gold);
 }
-.vocab-toggle svg { width: 14px; height: 14px; }
+
+.vocab-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
 .vocab-list {
   margin-top: 12px;
   overflow-y: auto;
@@ -240,7 +262,11 @@
   min-height: 0;
   width: 100%;
 }
-.vocab-list::-webkit-scrollbar { display: none; }
+
+.vocab-list::-webkit-scrollbar {
+  display: none;
+}
+
 .vocab-item {
   display: flex;
   justify-content: space-between;
@@ -252,9 +278,21 @@
   font-size: .78rem;
   transition: all .2s;
 }
-.vocab-item:hover { background: rgba(255, 255, 255, .04); }
-.vocab-item .word { font-weight: 600; color: var(--gold); cursor: pointer; }
-.vocab-item .word:hover { text-decoration: underline; }
+
+.vocab-item:hover {
+  background: rgba(255, 255, 255, .04);
+}
+
+.vocab-item .word {
+  font-weight: 600;
+  color: var(--gold);
+  cursor: pointer;
+}
+
+.vocab-item .word:hover {
+  text-decoration: underline;
+}
+
 .vocab-item .meaning {
   color: var(--ink-faint);
   font-size: .7rem;
@@ -264,6 +302,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .vocab-del {
   background: none;
   border: none;
@@ -273,7 +312,10 @@
   font-size: .7rem;
   transition: color .2s;
 }
-.vocab-del:hover { color: #e74c3c; }
+
+.vocab-del:hover {
+  color: #e74c3c;
+}
 
 /* ---------------- CSS: Cover (모바일 반응형, 860px 이하) ---------------- */
 @media(max-width:860px) {
@@ -281,28 +323,39 @@
     max-width: 100%;
     padding: 10px;
   }
+
   .cover-shell {
     max-width: 100%;
     height: calc(100dvh - 20px);
-    border-radius: 8px;
-    padding: 4px;
-    flex-direction: column;
+    border-radius: 4px 8px 8px 4px;
+    padding: 0;
+    flex-direction: row;
   }
+
   .cover-spine-el {
-    width: 100%;
+    width: 24px;
     min-width: unset;
-    flex: 0 0 12px;
-    border-radius: 6px 6px 0 0;
-    background: linear-gradient(180deg, var(--spine), var(--cover-light), var(--cover));
-    box-shadow: inset 0 -2px 6px rgba(0, 0, 0, .3);
+    flex: 0 0 24px;
+    border-radius: 4px 0 0 4px;
+    background: linear-gradient(90deg, var(--spine), var(--cover-light) 40%, var(--cover) 70%, var(--cover-light));
+    box-shadow: inset -2px 0 6px rgba(0, 0, 0, .4);
   }
-  .cover-spine-el::after { display: none; }
+
+  .cover-spine-el::after {
+    display: none;
+  }
+
   .cover-face {
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 8px 8px 0;
     min-height: 0;
     flex: 1;
     padding: 32px 20px;
   }
+  
+  .cover-face::before {
+    display: none;
+  }
+
   .cover-title {
     font-size: 1.5rem;
   }
