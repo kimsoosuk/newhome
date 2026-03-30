@@ -28,15 +28,11 @@
   display: flex;
   flex-direction: column;
   transition: width .4s cubic-bezier(.2, .8, .2, 1), transform .4s cubic-bezier(.2, .8, .2, 1);
-  background: #8a7e6e;
-  background-image: 
-    url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E"), 
-    radial-gradient(
-      ellipse at 40% 30%, 
-      #9e9282 0%,
-      #7a7060 60%,
-      #605848 100%
-    );
+  background-color: #f6ecdc;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(230, 218, 198, .45) 0%, transparent 65%),
+    radial-gradient(ellipse at 80% 30%, rgba(225, 212, 190, .35) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 80%, rgba(235, 224, 206, .35) 0%, transparent 60%);
   overflow: hidden;
   padding-bottom: calc(60px + env(safe-area-inset-bottom));
 }
@@ -161,20 +157,10 @@ body.landing-active {
   overflow: hidden;
 }
 
-/* 노트 줄 (복원된 줄눈 CSS) */
+/* 노트 줄 (기대하는 스크롤 동작을 위해 absolute 버리고 컨테이너 자체에 적용할 것임) */
 .note-right-lines,
 .note-left-lines {
-  position: absolute;
-  top: 32px; /* 상단 첫 줄 클리핑 (해상도 무관하게 마진 확보) */
-  bottom: 74px; /* 하단 채팅 입력창/버튼과 겹치지 않게 여백 추가 */
-  left: 32px; /* 좌측 가장자리 여백 (책끝/책등에 닿지 않도록) */
-  right: 32px; /* 우측 가장자리 여백 */
-  z-index: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(to bottom,
-      transparent 0px, transparent calc(var(--note-line-h) - 1px),
-      var(--note-line-color) calc(var(--note-line-h) - 1px), var(--note-line-color) var(--note-line-h));
-  background-position: 0 15px;
+  display: none !important;
 }
 
 /* 좌측 초기 아바타 */
@@ -232,6 +218,14 @@ body.landing-active {
   font-size: 13px;
   color: #555;
   line-height: var(--note-line-h);
+  
+  /* 추가된 줄눈 배경 (스크롤과 함께 이동) */
+  background-image: repeating-linear-gradient(to bottom,
+      transparent 0px, transparent calc(var(--note-line-h) - 1px),
+      var(--note-line-color) calc(var(--note-line-h) - 1px), var(--note-line-color) var(--note-line-h));
+  background-attachment: local; 
+  background-position: 0 0;
+  background-clip: content-box;
 }
 
 /* 우측 채팅 */
@@ -244,6 +238,14 @@ body.landing-active {
   padding: 47px 40px 15px 40px; /* 좌우 40px로 수정해 텍스트가 줄눈 여백(32px) 안쪽에 안착하게 설계 */
   display: flex;
   flex-direction: column;
+  
+  /* 추가된 줄눈 배경 (스크롤과 함께 이동) */
+  background-image: repeating-linear-gradient(to bottom,
+      transparent 0px, transparent calc(var(--note-line-h) - 1px),
+      var(--note-line-color) calc(var(--note-line-h) - 1px), var(--note-line-color) var(--note-line-h));
+  background-attachment: local; 
+  background-position: 0 0;
+  background-clip: content-box;
 }
 
 .note-chat-area::-webkit-scrollbar {
@@ -337,7 +339,7 @@ body.landing-active {
 }
 
 .note-mobile-title {
-  font-family: 'Noto Serif KR', serif;
+  font-family: var(--font-serif);
   font-weight: 700;
   font-size: 16px;
   color: var(--text-primary);
@@ -362,6 +364,8 @@ body.landing-active {
   z-index: 10;
   flex-shrink: 0;
   margin: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .note-input {
@@ -447,7 +451,7 @@ body.landing-active {
   left: 0;
   top: 18%;
   width: 18px;
-  height: 52px;
+  height: 120px; /* 데스크톱 북마크 길이 대폭 늘림 */
   background: var(--brand);
   border-radius: 0 6px 6px 0;
   cursor: pointer;
@@ -476,17 +480,72 @@ body.landing-active {
   stroke-linejoin: round;
 }
 
-/* 모드별 좌측 토글 — partial 모드에서 좌측 페이지 숨김 */
+/* 모드별 좌측 토글 — partial 모드에서 좌측 페이지 숨김 및 우측 여백 꽉채우기 */
 .chat-panel[data-mode="partial"] #left-page,
 .chat-panel[data-mode="partial"] .bk-spine,
 .chat-panel[data-mode="partial"] .bk-gutter {
   display: none;
 }
+.chat-panel[data-mode="partial"] .bk-scene {
+  padding: 0;
+  max-width: none;
+}
 .chat-panel[data-mode="partial"] .bk-shell {
-  border-radius: 10px 0 0 10px;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none; /* 3D 입체 그림자로 인해 떠보이는 공간 삭제 */
+  border-right: 1px solid rgba(0,0,0,.08); /* 밋밋하지 않게 구분선만 */
 }
 .chat-panel[data-mode="partial"] .bk-pages {
-  border-radius: 6px 0 0 6px;
+  border-radius: 0;
+}
+
+/* Partial 모드 구별용 헤더 요소 (우측면에 좌측정렬로 나타남) */
+.partial-chat-header {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start; /* 좌측 정렬 */
+  justify-content: flex-start;
+  margin: 0; 
+  height: 96px; /* 32px 줄눈 간격의 정확히 3배수 (줄눈 어긋남 방지) */
+  flex-shrink: 0;
+}
+.chat-panel[data-mode="partial"] .partial-chat-header {
+  display: flex;
+}
+.partial-chat-header img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(91, 58, 122, .15);
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background: var(--paper);
+}
+.partial-chat-name {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #5a4a3e;
+  background: var(--paper);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: -4px; /* 좌측 정렬 시 시각적 보정 */
+}
+
+/* ── 모바일 환경에서는 Partial 헤더 강제 숨김 ── */
+@media (max-width:768px) {
+  .partial-chat-header {
+    display: none !important;
+  }
+}
+
+/* 전체화면 모드 시 독 메뉴 등 뒷배경 숨김 최적화 */
+body.chat-full .dock-nav {
+  display: none !important;
+}
+body.chat-full, body.chat-full html {
+  overflow: hidden !important;
+  height: 100vh;
 }
 
 /* 반응형 - PC */
@@ -501,32 +560,46 @@ body.landing-active {
   .chat-panel {
     position: fixed;
     width: 100% !important;
-    height: 100vh;
+    height: 100dvh !important; /* 모바일에서 확실한 높이 고정 */
     right: 0;
     z-index: 300;
     transform: translateX(-100%);
     border-radius: 0;
+    padding-bottom: 0 !important; /* 밑에 뜨는 공간 완벽 제거 */
   }
 
   .chat-panel[data-mode="full"] {
     transform: translateX(0);
   }
 
-  /* 딕셔너리 모바일 최적화 */
+  /* 모바일에서 텍스트 여백을 대폭 줄여 양옆으로 채팅을 밀착, 약간의 좌우 마진만 남김 */
+  .note-chat-area {
+    padding: 24px 12px 15px 12px !important;
+  }
+
+  /* 모바일에서 줄눈 마진 대폭 축소 (더 이상 안 쓰지만 방어코드) */
+  .note-left-lines,
+  .note-right-lines {
+    left: 8px !important;
+    right: 8px !important;
+  }
+
+  /* 딕셔너리 모바일 최적화 (가득 채우기) */
   .bk-scene {
-    padding: 8px 4px 4px 4px;
-    margin-top: 50px; /* 모바일 헤더 공간 확보 */
+    padding: 0 !important;
+    margin-top: 55px; /* 모바일 헤더 공간 확보 */
+    height: calc(100dvh - 55px) !important;
   }
   .bk-shell {
     height: 100%;
-    border-radius: 8px;
-    padding: 4px;
+    border-radius: 0 !important;
+    padding: 0 !important;
   }
   #left-page, .bk-gutter, .bk-spine, .bk-edge {
     display: none !important;
   }
   .bk-pages, #right-page {
-    border-radius: 6px !important;
+    border-radius: 0 !important;
   }
 
   .chat-panel.mobile-open {
@@ -539,6 +612,7 @@ body.landing-active {
     background: transparent;
     padding: 0;
     box-shadow: none;
+    height: 100% !important;
   }
 
   .note-page-left,
@@ -549,6 +623,7 @@ body.landing-active {
   .note-page-right {
     border-radius: 0;
     box-shadow: none;
+    height: 100% !important;
   }
 
   .note-mobile-header {
@@ -570,7 +645,7 @@ body.landing-active {
 
   .chat-bookmark {
     width: 14px;
-    height: 42px;
+    height: 70px; /* 모바일 북마크 길이 늘림 */
     border-radius: 0 5px 5px 0;
   }
 

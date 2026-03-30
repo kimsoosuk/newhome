@@ -223,17 +223,18 @@ function initChat() {
       if (ca && window.innerWidth > 768) ca.style.marginLeft = '100vw';
       if (bb && window.innerWidth > 768) bb.style.marginLeft = '100vw';
     } else {
-      // partial (~340px)
+      // partial (30vw)
       document.body.classList.remove('chat-closed');
       document.body.classList.remove('chat-full');
-      if (ca && window.innerWidth > 768) ca.style.marginLeft = '340px';
-      if (bb && window.innerWidth > 768) bb.style.marginLeft = '340px';
+      if (ca && window.innerWidth > 768) ca.style.marginLeft = '30vw';
+      if (bb && window.innerWidth > 768) bb.style.marginLeft = '30vw';
     }
   }
 
   // 외부에서 호출 가능하도록
   initChat._setMode = setMode;
-
+  initChat._greet = greet;
+  
   resizeBtns.forEach(function (b) {
     if (b.hasAttribute('data-mode')) {
       b.addEventListener('click', function () {
@@ -245,10 +246,12 @@ function initChat() {
   // ── 모바일 토글 ──
   function openMobile() {
     cp.classList.add('mobile-open');
+    document.body.classList.add('chat-full'); // 모바일에서도 배경 스크롤 락
     greet();
   }
   function closeMobileFn() {
     cp.classList.remove('mobile-open');
+    document.body.classList.remove('chat-full');
   }
 
   if (closeMobile) closeMobile.addEventListener('click', closeMobileFn);

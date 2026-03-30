@@ -39,12 +39,12 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   padding-bottom: 60px;
-  /* 종이 텍스처 — 거의 순백 화이트에 아주 미세한 종이 질감 (화이트 벽지 느낌) */
+  /* 종이 텍스처 — 웜톤(베이지/아이보리) 계열의 종이 느낌 */
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(242, 238, 230, .35) 0%, transparent 65%),
-    radial-gradient(ellipse at 80% 30%, rgba(238, 234, 226, .25) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 80%, rgba(245, 240, 232, .2) 0%, transparent 60%);
-  background-color: #fefdfb;
+    radial-gradient(ellipse at 20% 50%, rgba(230, 218, 198, .45) 0%, transparent 65%),
+    radial-gradient(ellipse at 80% 30%, rgba(225, 212, 190, .35) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 80%, rgba(235, 224, 206, .35) 0%, transparent 60%);
+  background-color: #f6ecdc;
 }
 
 /* SVG 노이즈 텍스처 오버레이 */
@@ -239,6 +239,11 @@ body::before {
   .content-area {
     width: 100%;
     margin-left: 0 !important
+  }
+
+  /* 모바일에서 우측 마진 제거하여 꽉 차보이도록 빈공간 없앰 */
+  .program-scroll {
+    padding-right: 0 !important;
   }
 }
 

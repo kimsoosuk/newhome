@@ -23,8 +23,15 @@ function initLanding() {
     var isMobile = window.innerWidth <= 768;
 
     if (isMobile) {
-      // 모바일: 채팅 열기
-      if (cp) cp.classList.add('mobile-open');
+      // 모바일
+      if (mode === 'chat') {
+        if (cp) cp.classList.add('mobile-open');
+      } else {
+        if (cp) {
+          cp.classList.remove('mobile-open');
+          cp.setAttribute('data-mode', 'close');
+        }
+      }
     } else {
       // 데스크톱
       if (mode === 'chat') {

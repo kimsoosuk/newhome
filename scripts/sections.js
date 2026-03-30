@@ -3,7 +3,7 @@
    ═══════════════════════════════════════ */
 
 function makeBook(b, i) {
-  return '<a class="book-item animate-in delay-' + (i % 4 + 1) + '" href="' + b.href + '" target="_blank">' +
+  return '<a class="book-item animate-in" style="animation-delay: ' + (0.1 + i * 0.08) + 's" href="' + b.href + '" target="_blank">' +
     '<div class="book-cover"><div class="book-cover-iw">' +
     '<div class="book-cover-bg ' + b.cls + '"></div>' +
     '<div class="book-cover-inner-border"></div>' +
@@ -15,7 +15,7 @@ function makeBook(b, i) {
 }
 
 function makeWhiteBook(d, i) {
-  return '<a class="book-item animate-in delay-' + (i % 4 + 1) + '" href="' + d.h + '" target="_blank">' +
+  return '<a class="book-item animate-in" style="animation-delay: ' + (0.1 + i * 0.08) + 's" href="' + d.h + '" target="_blank">' +
     '<div class="book-cover cover-white"><div class="book-cover-iw">' +
     '<div class="book-cover-bg" style="background:#ffffff"></div>' +
     '<div class="book-cover-inner-border" style="border-color:rgba(91,58,122,.3)"></div>' +
@@ -30,7 +30,7 @@ function makeWhiteBook(d, i) {
 }
 
 function makeRecommendBook(r, i) {
-  return '<a class="book-item animate-in delay-' + (i % 4 + 1) + '" href="' + r.href + '" target="_blank">' +
+  return '<a class="book-item animate-in" style="animation-delay: ' + (0.1 + i * 0.08) + 's" href="' + r.href + '" target="_blank">' +
     '<div class="book-cover cover-img"><div class="book-cover-iw">' +
     '<div class="book-cover-bg" style="background-image:url(\'' + r.img + '\')"></div>' +
     '<div class="book-cover-shine"></div>' +
