@@ -36,13 +36,13 @@ function initLanding() {
       // 데스크톱
       if (mode === 'chat') {
         // 채팅으로 입장 → 전체화면 채팅
-        if (typeof initChat._setMode === 'function') {
-          initChat._setMode('full');
+        if (window.chatApi && typeof window.chatApi.setMode === 'function') {
+          window.chatApi.setMode('full');
         }
       } else {
         // 버튼으로 입장 → 부분 채팅 + 블레틴 보이기
-        if (typeof initChat._setMode === 'function') {
-          initChat._setMode('partial');
+        if (window.chatApi && typeof window.chatApi.setMode === 'function') {
+          window.chatApi.setMode('partial');
         }
       }
     }
@@ -50,8 +50,8 @@ function initLanding() {
     // 버튼으로 그냥 입장한 경우에만 인사말 출력
     if (mode === 'button') {
       setTimeout(function () {
-        if (typeof initChat._greet === 'function') {
-          initChat._greet();
+        if (window.chatApi && typeof window.chatApi.greet === 'function') {
+          window.chatApi.greet(true); // 강제 인사말 출력
         }
       }, 400);
     }

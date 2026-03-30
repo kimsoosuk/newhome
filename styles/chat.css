@@ -6,17 +6,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
 @font-face {
-    font-family: 'KccBangjeonghwan';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-2@1.0/KCCBangJeonghwan.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'KccBangjeonghwan';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-2@1.0/KCCBangJeonghwan.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
-  --note-line-h: 32px;
-  --note-bg: #faf8f4;
-  --note-line-color: rgba(160, 146, 124, 0.4); /* 훨씬 더 선명하고 따뜻한 노트 줄눈 색상 */
+  --note-bg: #fefcf6;
+  /* 순백색이 아닌 밝은 아이보리/크림색 */
+  --note-line-color: rgba(160, 146, 124, 0.4);
+  /* 훨씬 더 선명하고 따뜻한 노트 줄눈 색상 */
 }
 
 .chat-panel {
@@ -28,11 +29,11 @@
   display: flex;
   flex-direction: column;
   transition: width .4s cubic-bezier(.2, .8, .2, 1), transform .4s cubic-bezier(.2, .8, .2, 1);
-  background-color: #fdfcfa;
+  background-color: #fdfaf2;
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(250, 245, 235, .5) 0%, transparent 65%),
-    radial-gradient(ellipse at 80% 30%, rgba(245, 240, 230, .4) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 80%, rgba(255, 250, 240, .4) 0%, transparent 60%);
+    radial-gradient(ellipse at 20% 50%, rgba(255, 253, 245, 1) 0%, transparent 75%),
+    radial-gradient(ellipse at 80% 30%, rgba(255, 254, 250, 1) 0%, transparent 65%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 253, 245, 1) 0%, transparent 75%);
   overflow: hidden;
   padding-bottom: calc(60px + env(safe-area-inset-bottom));
 }
@@ -43,7 +44,9 @@
 }
 
 .chat-panel[data-mode="partial"] {
-  width: 340px;
+  width: 30vw;
+  min-width: 340px;
+  /* 너무 좁아지는 것을 방지 */
 }
 
 .chat-panel[data-mode="close"] {
@@ -102,7 +105,7 @@ body.landing-active {
   background: var(--cover);
   border-radius: 4px 10px 10px 4px;
   padding: 6px 6px 6px 0;
-  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.25), 0 16px 48px rgba(0,0,0,.35);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 12px rgba(0, 0, 0, .25), 0 16px 48px rgba(0, 0, 0, .35);
   transition: all .3s;
 }
 
@@ -112,7 +115,7 @@ body.landing-active {
   min-width: 22px;
   background: linear-gradient(90deg, var(--spine), var(--cover-light) 40%, var(--cover) 70%, var(--cover-light));
   border-radius: 4px 0 0 4px;
-  box-shadow: inset -2px 0 6px rgba(0,0,0,.4);
+  box-shadow: inset -2px 0 6px rgba(0, 0, 0, .4);
   position: relative;
 }
 
@@ -124,16 +127,18 @@ body.landing-active {
   border-radius: 0 6px 6px 0;
   overflow: hidden;
   position: relative;
-  box-shadow: inset 2px 0 8px rgba(0,0,0,.06);
+  box-shadow: inset 2px 0 8px rgba(0, 0, 0, .06);
 }
 
 /* 가운데 접히는 부분 (Gutter) - 입체감의 핵심 */
 .bk-gutter {
   position: absolute;
-  top: 0; bottom: 0; left: 50%;
+  top: 0;
+  bottom: 0;
+  left: 50%;
   width: 36px;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, transparent, rgba(30,24,15,.04) 15%, rgba(30,24,15,.16) 50%, rgba(30,24,15,.04) 85%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(30, 24, 15, .04) 15%, rgba(30, 24, 15, .16) 50%, rgba(30, 24, 15, .04) 85%, transparent);
   z-index: 2;
   pointer-events: none;
 }
@@ -141,7 +146,9 @@ body.landing-active {
 /* 우측 종이 옆면 (Edge) */
 .bk-edge {
   position: absolute;
-  top: 4px; bottom: 4px; right: -3px;
+  top: 4px;
+  bottom: 4px;
+  right: -3px;
   width: 3px;
   background: repeating-linear-gradient(180deg, var(--paper) 0px, var(--paper) 1px, var(--paper-edge) 1px, var(--paper-edge) 2px);
   border-radius: 0 2px 2px 0;
@@ -149,7 +156,8 @@ body.landing-active {
 }
 
 /* 내부 좌우 페이지 */
-.note-page-left, .note-page-right {
+.note-page-left,
+.note-page-right {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -183,9 +191,12 @@ body.landing-active {
   object-fit: cover;
   border: 2px solid rgba(91, 58, 122, .15);
   margin-bottom: 12px;
-  background: var(--paper); /* 투명도를 없애고 배경을 넣어 뒤의 가로줄을 가림 */
-  opacity: 1; /* 기존 0.65 제거 */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* 약간의 입체감 부여 */
+  background: var(--paper);
+  /* 투명도를 없애고 배경을 넣어 뒤의 가로줄을 가림 */
+  opacity: 1;
+  /* 기존 0.65 제거 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* 약간의 입체감 부여 */
 }
 
 .note-left-name {
@@ -193,7 +204,8 @@ body.landing-active {
   font-size: 15px;
   color: #5a4a3e;
   margin-bottom: 3px;
-  background: var(--paper); /* 텍스트 뒤의 줄 가림 */
+  background: var(--paper);
+  /* 텍스트 뒤의 줄 가림 */
   padding: 2px 12px;
   border-radius: 4px;
 }
@@ -207,10 +219,12 @@ body.landing-active {
   border-radius: 4px;
 }
 
+/* ── 좌측 페이지 ── */
 .note-left-content {
   position: absolute;
   inset: 0;
-  padding: 20px 40px; /* 줄눈 안쪽으로 텍스트 배치 */
+  padding: 32px 40px;
+  /* 줄눈 안쪽으로 텍스트 배치 (32px 배수로 맞춤) */
   z-index: 2;
   overflow-y: auto;
   scrollbar-width: none;
@@ -218,32 +232,33 @@ body.landing-active {
   font-size: 13px;
   color: #555;
   line-height: var(--note-line-h);
-  
-  /* 추가된 줄눈 배경 (스크롤과 함께 이동) */
-  background-image: repeating-linear-gradient(to bottom,
-      transparent 0px, transparent calc(var(--note-line-h) - 1px),
-      var(--note-line-color) calc(var(--note-line-h) - 1px), var(--note-line-color) var(--note-line-h));
-  background-attachment: local; 
+
+  /* 줄눈 배경 (스크롤과 함께 이동, 안티앨리어싱 및 밀림 오류 없는 고정 배경) */
+  background-image: linear-gradient(to bottom, transparent 31px, var(--note-line-color) 31px, var(--note-line-color) 32px);
+  background-size: 100% 32px;
+  background-attachment: local;
   background-position: 0 0;
   background-clip: content-box;
 }
 
-/* 우측 채팅 */
+/* ── 우측 채팅 ── */
 .note-chat-area {
   position: relative;
   z-index: 1;
   flex: 1;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 47px 40px 15px 40px; /* 좌우 40px로 수정해 텍스트가 줄눈 여백(32px) 안쪽에 안착하게 설계 */
+  padding: 64px 40px 32px 40px;
+  /* 32배수 여백으로 완벽하게 줄눈과 텍스트 싱크 맞춤 */
   display: flex;
   flex-direction: column;
-  
-  /* 추가된 줄눈 배경 (스크롤과 함께 이동) */
-  background-image: repeating-linear-gradient(to bottom,
-      transparent 0px, transparent calc(var(--note-line-h) - 1px),
-      var(--note-line-color) calc(var(--note-line-h) - 1px), var(--note-line-color) var(--note-line-h));
-  background-attachment: local; 
+  padding-top: 32px;
+  /* 사용자 요청: 맨 첫윗줄 비우고 그 아래부터 시작 */
+
+  /* 줄눈 배경 (스크롤과 함께 이동, 밀림 없는 고정 타일 사이즈 배경 방식) */
+  background-image: linear-gradient(to bottom, transparent 31px, var(--note-line-color) 31px, var(--note-line-color) 32px);
+  background-size: 100% 32px;
+  background-attachment: local;
   background-position: 0 0;
   background-clip: content-box;
 }
@@ -259,11 +274,24 @@ body.landing-active {
   padding: 0 4px;
   word-break: keep-all;
   overflow-wrap: break-word;
+  overflow-wrap: break-word;
   position: relative;
   z-index: 1;
   max-width: 90%;
   opacity: 0;
-  transform: translateY(-5px); /* 기본 폰트의 낮은 베이스라인 보정 */
+  margin: 0;
+  height: 32px;
+  /* 32px 그리드에 강제 고정 */
+  display: flex;
+  align-items: center;
+  /* 텍스트 수직 중앙 정렬 */
+  white-space: nowrap;
+  /* 브라우저 자체 줄바꿈 방지 (JS splitToLines 로직에 위임) */
+}
+
+/* 화자가 바뀔 때 한 줄 띄우기 (margin-top 방식이 그리드 유지에 더 확실함) */
+.note-msg.turn-start {
+  margin-top: 32px;
 }
 
 .note-msg.ai {
@@ -291,67 +319,99 @@ body.landing-active {
   animation: noteWriteR .35s ease forwards;
 }
 
-.note-msg-spacer {
-  height: var(--note-line-h);
-  flex-shrink: 0;
-}
-
 @keyframes noteWrite {
   from {
     opacity: 0;
-    transform: translate(-3px, -4px);
+    transform: translateX(-3px);
   }
+
   to {
     opacity: 1;
-    transform: translate(0, -4px);
+    transform: translateX(0);
   }
 }
 
 @keyframes noteWriteR {
   from {
     opacity: 0;
-    transform: translate(3px, -4px);
+    transform: translateX(3px);
   }
+
   to {
     opacity: 1;
-    transform: translate(0, -4px);
+    transform: translateX(0);
   }
 }
 
-/* 모바일 헤더 — 맨 위에 위치 */
-.note-mobile-header {
+/* ── 공용 부분/모바일 최상단 흰색 헤더 ── */
+.chat-top-header {
   display: none;
+  /* 디폴트(full) 숨김 */
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  background: var(--note-bg);
-  border-bottom: 1px solid rgba(0, 0, 0, .06);
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #ffffff;
+  /* 사용자 요청: 흰색 패널 */
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
   position: relative;
-  z-index: 4;
+  z-index: 10;
   order: -1;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
-.note-mobile-avatar {
+.chat-panel[data-mode="partial"] .chat-top-header {
+  display: flex;
+}
+
+.chat-header-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-header-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid var(--brand-light);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--paper);
 }
 
-.note-mobile-title {
+.chat-header-title {
   font-family: var(--font-serif);
   font-weight: 700;
   font-size: 16px;
-  color: var(--text-primary);
-  flex: 1;
+  color: #333;
 }
 
-.note-close-mobile {
-  background: none;
+.chat-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-header-btn {
+  background: transparent;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.chat-header-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #333;
+}
+
+.chat-header-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* 입력 */
@@ -456,7 +516,8 @@ body.landing-active {
   left: 0;
   top: 18%;
   width: 18px;
-  height: 120px; /* 데스크톱 북마크 길이 대폭 늘림 */
+  height: 120px;
+  /* 데스크톱 북마크 길이 대폭 늘림 */
   background: var(--brand);
   border-radius: 0 6px 6px 0;
   cursor: pointer;
@@ -488,76 +549,67 @@ body.landing-active {
 /* 모드별 좌측 토글 — partial 모드에서 좌측 페이지 숨김 및 우측 여백 꽉채우기 */
 .chat-panel[data-mode="partial"] #left-page,
 .chat-panel[data-mode="partial"] .bk-spine,
-.chat-panel[data-mode="partial"] .bk-gutter {
-  display: none;
+.chat-panel[data-mode="partial"] .bk-gutter,
+.chat-panel[data-mode="partial"] .bk-edge {
+  display: none !important;
 }
+
 .chat-panel[data-mode="partial"] .bk-scene {
   padding: 0;
   max-width: none;
+  flex: 1;
+  /* 나머지 공간 가득 채우기 */
+  min-height: 0;
+  align-items: stretch;
+  background: var(--note-bg);
 }
+
 .chat-panel[data-mode="partial"] .bk-shell {
+  height: 100%;
   border-radius: 0;
   padding: 0;
-  box-shadow: none; /* 3D 입체 그림자로 인해 떠보이는 공간 삭제 */
-  border-right: 1px solid rgba(0,0,0,.08); /* 밋밋하지 않게 구분선만 */
+  box-shadow: none;
+  /* 3D 입체 그림자로 인해 떠보이는 공간 삭제 */
+  border-right: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.06);
+  /* 왼쪽 구분선으로 전환 */
+  background: var(--note-bg);
 }
+
 .chat-panel[data-mode="partial"] .bk-pages {
+  height: 100%;
   border-radius: 0;
+  background: var(--note-bg);
+  box-shadow: none;
 }
 
-/* Partial 모드 구별용 헤더 요소 (우측면에 좌측정렬로 나타남) */
-.partial-chat-header {
-  display: none;
-  flex-direction: column;
-  align-items: flex-start; /* 좌측 정렬 */
-  justify-content: flex-start;
-  margin: 0; 
-  height: 96px; /* 32px 줄눈 간격의 정확히 3배수 (줄눈 어긋남 방지) */
-  flex-shrink: 0;
-}
-.chat-panel[data-mode="partial"] .partial-chat-header {
+.chat-panel[data-mode="partial"] .note-page-right {
+  height: 100%;
   display: flex;
-}
-.partial-chat-header img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(91, 58, 122, .15);
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  background: var(--paper);
-}
-.partial-chat-name {
-  font-family: var(--font-serif);
-  font-size: 14px;
-  color: #5a4a3e;
-  background: var(--paper);
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-left: -4px; /* 좌측 정렬 시 시각적 보정 */
+  flex-direction: column;
 }
 
-/* ── 모바일 환경에서는 Partial 헤더 강제 숨김 ── */
-@media (max-width:768px) {
-  .partial-chat-header {
-    display: none !important;
-  }
-}
-
-/* 전체화면 모드 시 독 메뉴 등 뒷배경 숨김 최적화 */
-body.chat-full .dock-nav {
+.chat-panel[data-mode="partial"] .note-resize-controls {
   display: none !important;
 }
-body.chat-full, body.chat-full html {
+
+/* ── 모바일 환경에서는 Partial 헤더 기능 대신 전용 헤더(.chat-top-header)를 씀 ── */
+
+/* 전체화면 모드나 랜딩 페이지에서는 독 메뉴 등 뒷배경 숨김 최적화 */
+body.chat-full .dock-nav,
+body.landing-active .dock-nav {
+  display: none !important;
+}
+
+body.chat-full,
+body.chat-full html {
   overflow: hidden !important;
   height: 100vh;
 }
 
 /* 반응형 - PC */
 @media (min-width:769px) {
-  .note-mobile-header {
-    display: none !important;
-  }
+  /* PC에서는 partial, close 모드 등 동적으로 chat-top-header 결정되므로 별도 처리 필요 없음 (기본 none, partial 시 flex) */
 }
 
 /* 반응형 - 모바일 */
@@ -565,21 +617,23 @@ body.chat-full, body.chat-full html {
   .chat-panel {
     position: fixed;
     width: 100% !important;
-    height: 100dvh !important; /* 모바일에서 확실한 높이 고정 */
+    height: 100dvh !important;
+    /* 모바일에서 확실한 높이 고정 */
     right: 0;
     z-index: 300;
     transform: translateX(-100%);
     border-radius: 0;
-    padding-bottom: 0 !important; /* 밑에 뜨는 공간 완벽 제거 */
+    padding-bottom: 0 !important;
+    /* 밑에 뜨는 공간 완벽 제거 */
   }
 
   .chat-panel[data-mode="full"] {
     transform: translateX(0);
   }
 
-  /* 모바일에서 텍스트 여백을 대폭 줄여 양옆으로 채팅을 밀착, 약간의 좌우 마진만 남김 */
+  /* 모바일에서 텍스트 여백을 32px 배수로 맞춰 그리드 라인 정렬 (데스크톱과 동기화) */
   .note-chat-area {
-    padding: 24px 12px 15px 12px !important;
+    padding: 32px 12px 32px 12px !important;
   }
 
   /* 모바일에서 줄눈 마진 대폭 축소 (더 이상 안 쓰지만 방어코드) */
@@ -592,18 +646,32 @@ body.chat-full, body.chat-full html {
   /* 딕셔너리 모바일 최적화 (가득 채우기) */
   .bk-scene {
     padding: 0 !important;
-    margin-top: 55px; /* 모바일 헤더 공간 확보 */
-    height: calc(100dvh - 55px) !important;
+    margin-top: 0 !important;
+    /* 모바일 헤더가 flex 요소이므로 추가 여백 불필요 (더블 여백 방지) */
+    flex: 1;
+    min-height: 0;
   }
+
   .bk-shell {
     height: 100%;
     border-radius: 0 !important;
     padding: 0 !important;
   }
-  #left-page, .bk-gutter, .bk-spine, .bk-edge {
+
+  .note-msg {
+    font-size: 16px;
+    /* 모바일 폰트 사이즈 키움 */
+  }
+
+  #left-page,
+  .bk-gutter,
+  .bk-spine,
+  .bk-edge {
     display: none !important;
   }
-  .bk-pages, #right-page {
+
+  .bk-pages,
+  #right-page {
     border-radius: 0 !important;
   }
 
@@ -631,12 +699,18 @@ body.chat-full, body.chat-full html {
     height: 100% !important;
   }
 
-  .note-mobile-header {
+  .chat-top-header {
     display: flex !important;
   }
 
+  .chat-header-btn[data-mode="full"],
+  .chat-header-btn[data-mode="partial"] {
+    display: none !important;
+    /* 모바일에서는 리사이즈 버튼 숨김 */
+  }
+
   .note-resize-controls {
-    display: none;
+    display: none !important;
   }
 
   .note-input-row {
@@ -651,7 +725,8 @@ body.chat-full, body.chat-full html {
 
   .chat-bookmark {
     width: 14px;
-    height: 70px; /* 모바일 북마크 길이 늘림 */
+    height: 70px;
+    /* 모바일 북마크 길이 늘림 */
     border-radius: 0 5px 5px 0;
   }
 

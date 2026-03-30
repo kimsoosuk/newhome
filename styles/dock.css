@@ -7,7 +7,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 200;
+  z-index: 1000; /* 모든 채널보다 위에 오도록 (채팅창 포함) */
   background: rgba(255, 255, 255, .86);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);

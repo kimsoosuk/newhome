@@ -11,12 +11,12 @@ function initChat() {
   var sendBtn = document.getElementById('aiSendBtn');
   var bookmark = document.getElementById('chatBookmark');
   var dockChat = document.getElementById('dockChat');
-  var closeMobile = document.getElementById('noteCloseMobile');
-  var resizeBtns = document.querySelectorAll('.note-resize-btn');
+  var resizeBtns = document.querySelectorAll('.note-resize-btn, .chat-header-btn.resize-clone');
   var isMobile = window.innerWidth <= 768;
   var greeted = false;
   var sending = false; // 중복 전송 방지
   var chatHistory = [];
+  var lastRole = null; // 대화 턴 추적용 (공백 자동 추가용)
 
   // ── 연필 소리 (Web Audio API) ──
   var audioCtx = null;
@@ -49,56 +49,69 @@ function initChat() {
     } catch (e) { }
   }
 
-  // ── 메시지 추가 (한 줄씩 적히는 효과) ──
+  // ── 메시지 추가 (문장 단위 분리 및 한 줄씩 적히는 효과) ──
   function addMessage(text, role, onDone, noSpacer) {
     initAudio();
-    if (chatArea.children.length > 0 && !noSpacer) {
-      var sp = document.createElement('div');
-      sp.className = 'note-msg-spacer';
-      chatArea.appendChild(sp);
+
+    // 턴이 바뀌거나, 명시적으로 스페이서가 필요한 경우 한 줄 띄움 효과(margin-top)
+    var isTurnStart = false;
+    if (chatArea.children.length > 0) {
+      if (lastRole !== null && lastRole !== role) {
+        isTurnStart = true; // 화자가 바뀌면 무조건 띄움
+      } else if (!noSpacer) {
+        isTurnStart = true; // 같은 화자인데 noSpacer가 아니면 띄움
+      }
     }
+    lastRole = role;
 
-    // 화면 너비에 맞춰 줄바꿈 글자 수 계산 (채팅 영역의 80% 정도만 사용하도록)
-    var availableWidth = chatArea.clientWidth * 0.80;
-    var maxLen = Math.floor(availableWidth / 15);
-    if (maxLen < 18) maxLen = 18;
+    // 화면 너비에 맞춰 줄바꿈 글자 수 계산 (한국어 특성상 조금 더 보수적으로 13으로 나눔)
+    var availableWidth = chatArea.clientWidth * 0.85; 
+    var maxLen = Math.floor(availableWidth / 13);
+    if (maxLen < 15) maxLen = 15;
 
-    var lines = splitToLines(text, maxLen);
+    // 1. 개행(\n)으로만 먼저 분리
+    var blocks = text.split('\n');
+    var allLines = [];
+    blocks.forEach(function (blk) {
+      if (blk.trim() === '') {
+        allLines.push(''); // 빈 로우
+        return;
+      }
+      // 2. 가로폭이 넘는 긴 텍스트는 글자수(maxLen) 기준으로 분할
+      var subLines = splitToLines(blk.trim(), maxLen);
+      allLines = allLines.concat(subLines);
+    });
+
     var delay = 0;
-
-    lines.forEach(function (line, idx) {
+    allLines.forEach(function (line, idx) {
       var el = document.createElement('div');
       el.className = 'note-msg ' + role;
-      el.textContent = line;
+      if (idx === 0 && isTurnStart) el.classList.add('turn-start');
+      el.textContent = line; 
       chatArea.appendChild(el);
 
       setTimeout(function () {
         el.classList.add('visible');
-        playPencilSound(0.12 + Math.random() * 0.08);
+        playPencilSound(0.1 + Math.random() * 0.1);
         chatArea.scrollTop = chatArea.scrollHeight;
-        if (idx === lines.length - 1 && onDone) onDone();
+        if (idx === allLines.length - 1 && onDone) onDone();
       }, delay);
 
-      delay += 180 + line.length * 12;
+      delay += 150 + line.length * 10;
     });
   }
 
   function splitToLines(text, maxLen) {
+    if (!text || text.length <= maxLen) return [text || ''];
+
     var result = [];
-    var cur = '';
-    for (var i = 0; i < text.length; i++) {
-      cur += text[i];
-      // 줄 길이 도달 시 자연스러운 위치에서 분할
-      if (cur.length >= maxLen) {
-        var ch = text[i];
-        if (ch === ' ' || ch === '.' || ch === ',' || ch === '!' || ch === '?') {
-          result.push(cur.trim());
-          cur = '';
-        }
-      }
+    var startIndex = 0;
+    while (startIndex < text.length) {
+      var chunk = text.substr(startIndex, maxLen);
+      result.push(chunk);
+      startIndex += maxLen;
     }
-    if (cur.trim()) result.push(cur.trim());
-    return result.length ? result : [text];
+    return result;
   }
 
   // ── API 호출 (Worker 경유) ──
@@ -116,7 +129,7 @@ function initChat() {
       .then(function (r) { return r.json(); })
       .then(function (data) {
         var reply = data.reply || '미안, 다시 한 번 물어봐줄래?';
-        
+
         // [디버깅 임시 코드] 에러 원인을 화면에서 파악할 수 있도록 덧붙임
         if (data.error && data.error.length > 0) {
           reply += '\n\n(상세 오류: ' + data.error + ')';
@@ -166,11 +179,11 @@ function initChat() {
   });
 
   // ── 인사 (한 번만) ──
-  function greet() {
-    if (greeted) return;
+  function greet(force) {
+    if (greeted && !force) return;
 
-    // 이미 대화가 진행 중이면 (랜딩에서 바로 질문해서 들어온 경우 등) 인사를 생략
-    if (chatHistory.length > 0 || chatArea.children.length > 0) {
+    // 이미 대화가 진행 중이면 (랜딩에서 바로 질문해서 들어온 경우 등) 인사를 생략 (강제 호출 시 무시)
+    if (!force && (chatHistory.length > 0 || chatArea.children.length > 0)) {
       greeted = true;
       return;
     }
@@ -182,26 +195,27 @@ function initChat() {
           addMessage('오늘 하루 잘 보내고 있어?', 'ai', null, true);
         }, 600);
       });
-    }, 800);
+    }, 400); // 사용자 요청에 따라 조금 더 빠르게 반응하도록 조정
   }
 
   // 외부에서 호출 가능하도록
   initChat._greet = greet;
 
   // ── 대화 새로고침 ──
-  var refreshBtn = document.getElementById('noteRefreshBtn');
-  if (refreshBtn) {
-    refreshBtn.addEventListener('click', function () {
+  var refreshBtns = document.querySelectorAll('#noteRefreshBtn, .chat-header-btn[data-action="refresh"]');
+  refreshBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
       // 채팅 내용 초기화
       chatArea.innerHTML = '';
       chatHistory = [];
       greeted = false;
       sending = false;
+      lastRole = null; // 초기화
 
       // 다시 인사하기
-      greet();
+      greet(true);
     });
-  }
+  });
 
   // ── 리사이즈 모드 (3-state: close / partial / full) ──
   function setMode(mode) {
@@ -215,6 +229,7 @@ function initChat() {
     if (mode === 'close') {
       document.body.classList.add('chat-closed');
       document.body.classList.remove('chat-full');
+      cp.classList.remove('mobile-open'); // 모바일 열림 상태도 함께 해제
       if (ca) ca.style.marginLeft = '0';
       if (bb) bb.style.marginLeft = '0';
     } else if (mode === 'full') {
@@ -231,10 +246,11 @@ function initChat() {
     }
   }
 
-  // 외부에서 호출 가능하도록
-  initChat._setMode = setMode;
-  initChat._greet = greet;
-  
+  // 외부에서 호출 가능하도록 확실한 전역 객체 사용
+  window.chatApi = window.chatApi || {};
+  window.chatApi.setMode = setMode;
+  window.chatApi.greet = greet;
+
   resizeBtns.forEach(function (b) {
     if (b.hasAttribute('data-mode')) {
       b.addEventListener('click', function () {
@@ -249,12 +265,6 @@ function initChat() {
     document.body.classList.add('chat-full'); // 모바일에서도 배경 스크롤 락
     greet();
   }
-  function closeMobileFn() {
-    cp.classList.remove('mobile-open');
-    document.body.classList.remove('chat-full');
-  }
-
-  if (closeMobile) closeMobile.addEventListener('click', closeMobileFn);
 
   // ── 북마크 & 독 네비게이션 ──
   bookmark.addEventListener('click', function () {

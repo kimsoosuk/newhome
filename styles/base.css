@@ -39,12 +39,12 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   padding-bottom: 60px;
-  /* 종이 텍스처 — 매우 밝고 깨끗한 아이보리(화이트에 가까운) 톤 */
+  /* 배경 — 따뜻하고 밝은 아이보리 톤 */
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(250, 245, 235, .5) 0%, transparent 65%),
-    radial-gradient(ellipse at 80% 30%, rgba(245, 240, 230, .4) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 80%, rgba(255, 250, 240, .4) 0%, transparent 60%);
-  background-color: #fdfcfa;
+    radial-gradient(ellipse at 20% 50%, rgba(255, 253, 245, 1) 0%, transparent 75%),
+    radial-gradient(ellipse at 80% 30%, rgba(255, 254, 250, 1) 0%, transparent 65%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 253, 245, 1) 0%, transparent 75%);
+  background-color: #fdfaf2;
 }
 
 /* SVG 노이즈 텍스처 오버레이 */
@@ -106,6 +106,45 @@ body::before {
   margin-top: 6px
 }
 
+.program-scroll-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, .85);
+  border: 1px solid rgba(0, 0, 0, .05);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--brand); /* 아이콘 색상 */
+  transition: all .2s;
+  backdrop-filter: blur(4px);
+}
+
+.scroll-btn:hover {
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.scroll-btn.prev {
+  left: -20px;
+}
+
+.scroll-btn.next {
+  right: -20px;
+}
+
 .program-scroll {
   display: flex;
   gap: clamp(14px, 2.5vw, 22px);
@@ -116,6 +155,12 @@ body::before {
   /* 호버 시 위쪽 잘림 방지를 위해 top padding 증가 */
   scrollbar-width: none;
   overflow-y: visible;
+}
+
+@media (max-width: 768px) {
+  .scroll-btn {
+    display: none !important; /* 모바일에서는 스와이프를 권장하며 버튼 숨김 */
+  }
 }
 
 .program-scroll::-webkit-scrollbar {

@@ -41,6 +41,22 @@ function makeRecommendBook(r, i) {
     '</div></a>';
 }
 
+function getScrollBtn(dir) {
+  var isLeft = dir === -1;
+  var cls = isLeft ? 'prev' : 'next';
+  var path = isLeft ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6';
+  return '<button class="scroll-btn ' + cls + '" onclick="scrollProgram(this, ' + dir + ')">' +
+         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="' + path + '"/></svg></button>';
+}
+
+window.scrollProgram = function(btn, dir) {
+  var wrap = btn.parentElement;
+  var scrollArea = wrap.querySelector('.program-scroll');
+  if (scrollArea) {
+    scrollArea.scrollBy({ left: 600 * dir, behavior: 'smooth' });
+  }
+};
+
 function buildSections() {
   var CA = document.getElementById('contentArea');
   var html = '';
@@ -50,12 +66,17 @@ function buildSections() {
     html += '<div class="program-header animate-in">';
     html += '<div class="program-title">' + sec.title + '</div>';
     html += '<div class="program-subtitle">' + sec.sub + '</div></div>';
+    
+    html += '<div class="program-scroll-wrap">';
+    html += getScrollBtn(-1);
     html += '<div class="program-scroll">';
     if (sec.white) {
       METHOD_DATA.forEach(function (d, i) { html += makeWhiteBook(d, i); });
     } else if (sec.books) {
       sec.books.forEach(function (b, i) { html += makeBook(b, i); });
     }
+    html += '</div>';
+    html += getScrollBtn(1);
     html += '</div></section>';
   });
 
@@ -79,9 +100,13 @@ function buildSections() {
   html += '<section class="programs-section" id="sec-recommend">' +
     '<div class="program-header animate-in"><div class="program-title">수석의 추천도서</div>' +
     '<div class="program-subtitle">수석 선생님이 직접 고른 필독서</div></div>' +
+    '<div class="program-scroll-wrap">' +
+    getScrollBtn(-1) +
     '<div class="program-scroll">';
   RECOMMEND_DATA.forEach(function (r, i) { html += makeRecommendBook(r, i); });
-  html += '</div></section>';
+  html += '</div>' +
+    getScrollBtn(1) +
+    '</div></section>';
 
   // 진단
   html += '<section class="programs-section" id="sec-diag" style="padding-bottom:20px;background:#fff">' +
