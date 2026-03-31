@@ -162,7 +162,7 @@
 /* 표지 화면의 검색 인풋 / 버튼 */
 .cover-search {
   width: 100%;
-  max-width: 300px;
+  max-width: 440px;
   position: relative;
   margin-top: auto;
   margin-bottom: 24px;
@@ -225,7 +225,7 @@
 /* ---------------- CSS: 나의 단어장 영역 ---------------- */
 .vocab-section {
   width: 100%;
-  max-width: 300px;
+  max-width: 440px;
   margin-top: 0;
   margin-bottom: 8vh;
   display: flex;

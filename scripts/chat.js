@@ -292,6 +292,18 @@ function initChat() {
     }
     if (mode !== 'partial') document.body.classList.remove('chat-partial');
 
+    // 전체화면 시 우측 상단 컨트롤 버튼을 책 표지 안(.bk-shell)으로 물리적 이동
+    var controls = cp.querySelector('.chat-header-controls');
+    var topHeader = cp.querySelector('.chat-top-header');
+    var bkShell = cp.querySelector('.bk-shell');
+    if (controls && topHeader && bkShell) {
+      if (mode === 'full') {
+        bkShell.appendChild(controls);
+      } else {
+        topHeader.appendChild(controls);
+      }
+    }
+
     // 모드가 바뀌면 채팅 너비가 달라지므로 즉시 재렌더링
     // (CSS transition 시간 이후에 실행해야 clientWidth를 정확히 받아옴)
     setTimeout(reRenderChat, 450);

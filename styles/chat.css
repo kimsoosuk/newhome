@@ -43,6 +43,7 @@
 /* ── 3-state 모드 ── */
 .chat-panel[data-mode="full"] {
   width: 100vw;
+  padding-bottom: env(safe-area-inset-bottom); /* 하단 독이 숨겨지므로 불필요한 패딩 제거, 세로 중앙 정렬 복구 */
 }
 
 .chat-panel[data-mode="partial"] {
@@ -367,6 +368,27 @@ body.landing-active {
 
 .chat-panel[data-mode="partial"] .chat-top-header {
   display: flex;
+}
+
+.chat-panel[data-mode="full"] .chat-top-header {
+  display: none; /* 전체화면 헤더 완전 숨김 */
+}
+
+/* ── 자바스크립트로 전체화면 시 bk-shell 내부로 들어올 때 ── */
+.bk-shell > .chat-header-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+}
+
+.bk-shell > .chat-header-controls .chat-header-btn {
+  color: var(--text-secondary); /* 밝은 종이색 위에서 보이도록 */
+}
+
+.bk-shell > .chat-header-controls .chat-header-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .chat-header-profile {
