@@ -26,11 +26,13 @@ function initLanding() {
       // 모바일
       if (mode === 'chat') {
         if (cp) cp.classList.add('mobile-open');
+        document.body.classList.add('chat-full'); // 독 메뉴 숨김 및 스크롤 락
       } else {
         if (cp) {
           cp.classList.remove('mobile-open');
           cp.setAttribute('data-mode', 'close');
         }
+        document.body.classList.remove('chat-full'); // 독 메뉴 보이기
       }
     } else {
       // 데스크톱

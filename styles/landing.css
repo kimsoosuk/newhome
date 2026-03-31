@@ -353,7 +353,8 @@
   }
 
   .cover-face::before {
-    display: none;
+    inset: 15px; /* 모바일에서는 살짝 덜 깊게 */
+    border-radius: 6px;
   }
 
   .cover-title {
