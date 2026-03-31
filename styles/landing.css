@@ -108,7 +108,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 10vh 36px 0 36px; /* 더 위로 올림 */
+  padding: 18vh 36px 0 36px; /* 제목과 라인을 아래로 더 내림 */
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -136,10 +136,10 @@
 }
 
 .cover-title {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: 2.1rem; /* 조금 더 시원하게 크기 업 */
-  font-weight: 800; /* 더 '힘있는' 느낌을 위해 800 적용 */
-  letter-spacing: -0.03em; /* 프리미엄 산세리프 특유의 좁은 자간 */
+  font-family: 'Gowun Batang', serif;
+  font-size: 2.2rem; 
+  font-weight: 700; 
+  letter-spacing: -0.5px; 
   color: var(--paper);
   margin-bottom: 24px;
   line-height: 1.2;
