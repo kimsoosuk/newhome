@@ -49,7 +49,7 @@
   /* 네 모서리 모두 둥글게 깎아 떠있는 모바일 화면처럼 연출 */
   border-radius: 18px;
   top: 12px;
-  bottom: 12px;
+  bottom: calc(72px + env(safe-area-inset-bottom)); /* 하단 독 위로 끌어올림 */
   left: 12px;
   height: auto; /* calc(dvh) 대신 명시적 top/bottom 앵커로 iOS 바운스 버그 방지 */
   /* 부드러운 입체감과 테두리 효과 */
@@ -461,7 +461,7 @@ body.landing-active {
 .note-input {
   flex: 1;
   min-width: 0; /* Prevents long inputs from truncating the send button */
-  border: 1px solid #d8d4cc;
+  border: 1px solid rgba(91, 58, 122, 0.3); /* 연한 보라색 포인트 테두리 */
   border-radius: 20px;
   padding: 10px 16px;
   font-size: 14px;
@@ -476,7 +476,7 @@ body.landing-active {
 }
 
 .note-input:focus {
-  border-color: var(--brand);
+  border-color: #1c2135; /* 진한 남보라색 포커스 */
 }
 
 .note-send-btn {

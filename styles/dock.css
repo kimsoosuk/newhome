@@ -72,13 +72,11 @@
   font-weight: 600
 }
 
-#dockChat.active .dock-icon svg,
-#dockChat .dock-icon svg {
+#dockChat.active .dock-icon svg {
   stroke: #1c2135;
 }
 
-#dockChat.active .dock-label,
-#dockChat .dock-label {
+#dockChat.active .dock-label {
   color: #1c2135;
   font-weight: 700;
 }

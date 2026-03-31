@@ -49,7 +49,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: clamp(28px, 4.5vw, 42px);
-  color: var(--text-primary);
+  color: #1c2135; /* 남보라색 적용 */
   letter-spacing: -.5px;
 }
 

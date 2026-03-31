@@ -182,8 +182,8 @@
 }
 
 .cover-input::placeholder {
-  color: rgba(196, 164, 74, .4);
-  font-style: italic;
+  color: rgba(26, 26, 26, .35);
+  font-family: var(--font-serif);
 }
 
 .cover-input:focus,
@@ -329,8 +329,9 @@
   }
 
   .cover-shell {
-    max-width: 100%;
-    height: calc(100dvh - 20px);
+    width: 100%;
+    /* 세로 길이가 가로 길이에 비해 너무 뚱뚱해지지 않도록 최대 3:4 비율(1.333) 제한 */
+    max-height: min(calc(100vw * 1.333), calc(100dvh - 20px));
     border-radius: 4px 8px 8px 4px;
     padding: 0;
     flex-direction: row;
