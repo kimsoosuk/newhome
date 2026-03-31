@@ -14,10 +14,9 @@
 }
 
 :root {
-  --note-bg: #fefcf6;
-  /* 순백색이 아닌 밝은 아이보리/크림색 */
+  --note-bg: #fffefd;
+  /* 순백색이 아닌 아주 옅은 따뜻한 톤 */
   --note-line-color: rgba(160, 146, 124, 0.4);
-  /* 훨씬 더 선명하고 따뜻한 노트 줄눈 색상 */
 }
 
 .chat-panel {
@@ -29,11 +28,8 @@
   display: flex;
   flex-direction: column;
   transition: width .4s cubic-bezier(.2, .8, .2, 1), transform .4s cubic-bezier(.2, .8, .2, 1);
-  background-color: #fdfaf2;
-  background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(255, 253, 245, 1) 0%, transparent 75%),
-    radial-gradient(ellipse at 80% 30%, rgba(255, 254, 250, 1) 0%, transparent 65%),
-    radial-gradient(ellipse at 50% 80%, rgba(255, 253, 245, 1) 0%, transparent 75%);
+  background-color: #fffefd;
+  background-image: none;
   overflow: hidden;
   overflow-x: hidden; /* 태블릿 좌우 스와이프 방지 */
   touch-action: pan-y; /* 수직 스크롤만 허용, 수평 제스처 차단 */
@@ -43,16 +39,20 @@
 /* ── 3-state 모드 ── */
 .chat-panel[data-mode="full"] {
   width: 100vw;
+  background-color: transparent; /* 전체화면 시 body의 남보라빛 그림자 배경 노출 */
   padding-bottom: env(safe-area-inset-bottom); /* 하단 독이 숨겨지므로 불필요한 패딩 제거, 세로 중앙 정렬 복구 */
 }
 
 .chat-panel[data-mode="partial"] {
   width: 30vw;
   min-width: 340px;
-  /* 책처럼 모서리 곡률 추가 */
-  border-radius: 0 14px 14px 0;
-  /* 오른쪽 그림자 — fixed 엘리먼트에 적용해야 overflow 클립 없이 표시됨 */
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.10);
+  /* 네 모서리 모두 둥글게 깎아 떠있는 모바일 화면처럼 연출 */
+  border-radius: 18px;
+  height: calc(100dvh - 24px);
+  top: 12px;
+  left: 12px;
+  /* 부드러운 입체감과 테두리 효과 */
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 .chat-panel[data-mode="close"] {
@@ -352,18 +352,18 @@ body.landing-active {
   }
 }
 
-/* ── 공용 부분/모바일 최상단 헤더 (딥 네이비 퍼플) ── */
+/* ── 공용 부분/모바일 최상단 헤더 (밝은 톤) ── */
 .chat-top-header {
   display: none;
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #1c2135; /* 책 표지 커버 색상 */
-  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  background: #fffefd; /* 채팅 배경 통일 */
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
   position: relative;
   z-index: 10;
   order: -1;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .chat-panel[data-mode="partial"] .chat-top-header {
@@ -459,6 +459,7 @@ body.landing-active {
 
 .note-input {
   flex: 1;
+  min-width: 0; /* Prevents long inputs from truncating the send button */
   border: 1px solid #d8d4cc;
   border-radius: 20px;
   padding: 10px 16px;
@@ -481,7 +482,7 @@ body.landing-active {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--brand);
+  background: #1c2135; /* 통일된 남보라색 Accent */
   border: none;
   cursor: pointer;
   display: flex;
@@ -491,7 +492,7 @@ body.landing-active {
 }
 
 .note-send-btn:hover {
-  background: var(--brand-dark);
+  background: #0f121e; /* 호버 시 더 어둡게 */
 }
 
 .note-send-btn svg {

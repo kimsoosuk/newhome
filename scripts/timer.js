@@ -14,7 +14,6 @@ function initTimer() {
 
   var pr = document.getElementById('tP');
   var tt = document.getElementById('tT');
-  var ml = document.getElementById('tML');
   var sb = document.getElementById('tS');
 
   function update() {
@@ -31,14 +30,10 @@ function initTimer() {
       running = false;
       if (!isRest) {
         isRest = true; total = REST; remain = REST;
-        ml.textContent = '휴식 시간';
-        ml.className = 'timer-mode rest-mode';
         pr.classList.add('rest');
         sb.textContent = '시작';
       } else {
         isRest = false; total = WORK; remain = WORK;
-        ml.textContent = '공부 시간';
-        ml.className = 'timer-mode';
         pr.classList.remove('rest');
         sb.textContent = '시작';
       }
@@ -58,8 +53,6 @@ function initTimer() {
   document.getElementById('tR').addEventListener('click', function() {
     clearInterval(interval); running = false; isRest = false;
     total = WORK; remain = WORK;
-    ml.textContent = '공부 시간';
-    ml.className = 'timer-mode';
     pr.classList.remove('rest');
     sb.textContent = '시작';
     update();

@@ -72,6 +72,17 @@
   font-weight: 600
 }
 
+#dockChat.active .dock-icon svg,
+#dockChat .dock-icon svg {
+  stroke: #1c2135;
+}
+
+#dockChat.active .dock-label,
+#dockChat .dock-label {
+  color: #1c2135;
+  font-weight: 700;
+}
+
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .dock-nav {
     padding-bottom: calc(8px + env(safe-area-inset-bottom))

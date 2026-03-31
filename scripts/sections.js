@@ -80,23 +80,7 @@ function buildSections() {
     html += '</div></section>';
   });
 
-  // 타이머
-  html += '<section class="timer-section" id="sec-timer">' +
-    '<div class="program-header animate-in"><div class="program-title">공부 타이머</div>' +
-    '<div class="program-subtitle">25분 집중, 5분 휴식 — 포모도로 기법</div></div>' +
-    '<div class="timer-wrap">' +
-    '<div class="timer-mode" id="tML">공부 시간</div>' +
-    '<svg class="timer-svg" viewBox="0 0 120 120">' +
-    '<circle class="timer-bg" cx="60" cy="60" r="52"/>' +
-    '<circle class="timer-progress" id="tP" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="0"/>' +
-    '<text class="timer-text" id="tT" x="60" y="45" text-anchor="middle" dominant-baseline="central">25:00</text>' +
-    '<text class="timer-label-txt" x="60" y="80" text-anchor="middle">25분 집중 / 5분 휴식</text></svg>' +
-    '<div class="timer-controls">' +
-    '<button class="timer-btn start" id="tS">시작</button>' +
-    '<button class="timer-btn reset" id="tR">초기화</button>' +
-    '</div></div></section>';
-
-  // 수석의 추천도서
+  // 타이머는 맨 밑으로 이동
   html += '<section class="programs-section" id="sec-recommend">' +
     '<div class="program-header animate-in"><div class="program-title">수석의 추천도서</div>' +
     '<div class="program-subtitle">수석 선생님이 직접 고른 필독서</div></div>' +
@@ -120,6 +104,21 @@ function buildSections() {
       '<span class="diag-card-tag">진단하기</span></div>';
   });
   html += '</div></section>';
+
+  // 타이머
+  html += '<section class="timer-section" id="sec-timer">' +
+    '<div class="program-header animate-in"><div class="program-title">공부 타이머</div>' +
+    '<div class="program-subtitle">25분 집중, 5분 휴식 — 포모도로 기법</div></div>' +
+    '<div class="timer-wrap">' +
+    '<svg class="timer-svg" viewBox="0 0 120 120">' +
+    '<circle class="timer-bg" cx="60" cy="60" r="52"/>' +
+    '<circle class="timer-progress" id="tP" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="0"/>' +
+    '<text class="timer-text" id="tT" x="60" y="60" text-anchor="middle" dominant-baseline="central">25:00</text>' +
+    '</svg>' +
+    '<div class="timer-controls">' +
+    '<button class="timer-btn start" id="tS">시작</button>' +
+    '<button class="timer-btn reset" id="tR">초기화</button>' +
+    '</div></div></section>';
 
   CA.innerHTML = html;
 }
