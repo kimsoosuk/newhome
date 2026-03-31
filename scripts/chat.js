@@ -17,6 +17,7 @@ function initChat() {
   var sending = false; // 중복 전송 방지
   var chatHistory = [];
   var lastRole = null; // 대화 턴 추적용 (공백 자동 추가용)
+  var renderHistory = []; // 재렌더링용 원문 기록 (text + role)
 
   // ── 연필 소리 (Web Audio API) ──
   var audioCtx = null;
@@ -52,6 +53,8 @@ function initChat() {
   // ── 메시지 추가 (문장 단위 분리 및 한 줄씩 적히는 효과) ──
   function addMessage(text, role, onDone, noSpacer) {
     initAudio();
+    // 재렌더링용 원문 저장
+    renderHistory.push({ text: text, role: role, noSpacer: !!noSpacer });
 
     // 턴이 바뀌거나, 명시적으로 스페이서가 필요한 경우 한 줄 띄움 효과(margin-top)
     var isTurnStart = false;
@@ -249,6 +252,7 @@ function initChat() {
       // 채팅 내용 초기화
       chatArea.innerHTML = '';
       chatHistory = [];
+      renderHistory = []; // 재렌더링 기록도 함께 초기화
       greeted = false;
       sending = false;
       lastRole = null; // 초기화
@@ -270,7 +274,7 @@ function initChat() {
     if (mode === 'close') {
       document.body.classList.add('chat-closed');
       document.body.classList.remove('chat-full');
-      cp.classList.remove('mobile-open'); // 모바일 열림 상태도 함께 해제
+      cp.classList.remove('mobile-open');
       if (ca) ca.style.marginLeft = '0';
       if (bb) bb.style.marginLeft = '0';
     } else if (mode === 'full') {
@@ -282,12 +286,31 @@ function initChat() {
       // partial (30vw)
       document.body.classList.remove('chat-closed');
       document.body.classList.remove('chat-full');
-      document.body.classList.add('chat-partial'); // 가로 스크롤 차단
+      document.body.classList.add('chat-partial');
       if (ca && window.innerWidth > 768) ca.style.marginLeft = '30vw';
       if (bb && window.innerWidth > 768) bb.style.marginLeft = '30vw';
     }
-    // partial 모드가 아닐 때는 chat-partial 해제
     if (mode !== 'partial') document.body.classList.remove('chat-partial');
+
+    // 모드가 바뀌면 채팅 너비가 달라지므로 즉시 재렌더링
+    // (CSS transition 시간 이후에 실행해야 clientWidth를 정확히 받아옴)
+    setTimeout(reRenderChat, 450);
+  }
+
+  // 기존 대화를 채팅창 현재 너비에 맞게 재분할해서 다시 그림
+  function reRenderChat() {
+    if (!renderHistory || renderHistory.length === 0) return;
+    chatArea.innerHTML = '';
+    lastRole = null;
+    var savedHistory = renderHistory.slice();
+    renderHistory = [];
+    savedHistory.forEach(function (item) {
+      addMessage(item.text, item.role, null, item.noSpacer);
+    });
+    // 애니메이션 없이 즉시 visible 처리
+    var msgs = chatArea.querySelectorAll('.note-msg');
+    msgs.forEach(function (m) { m.classList.add('visible'); });
+    chatArea.scrollTop = chatArea.scrollHeight;
   }
 
   // 외부에서 호출 가능하도록 확실한 전역 객체 사용
