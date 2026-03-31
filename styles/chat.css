@@ -585,6 +585,13 @@ body.landing-active {
   flex-direction: column;
 }
 
+/* partial 모드에서 채팅 영역 좌우 패딩을 좁은 컨테이너에 맞게 축소 */
+.chat-panel[data-mode="partial"] .note-chat-area {
+  padding: 32px 16px 32px 16px !important;
+  overflow-x: hidden !important;
+  touch-action: pan-y;
+}
+
 .chat-panel[data-mode="partial"] .note-resize-controls {
   display: none !important;
 }
@@ -595,6 +602,12 @@ body.landing-active {
 body.chat-full .dock-nav,
 body.landing-active .dock-nav {
   display: none !important;
+}
+
+/* body 가로 스크롤 차단 (partial/full 모드 모두) */
+body.chat-partial,
+body.chat-full {
+  overflow-x: hidden !important;
 }
 
 body.chat-full,

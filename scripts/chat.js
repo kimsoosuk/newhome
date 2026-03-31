@@ -65,10 +65,12 @@ function initChat() {
     lastRole = role;
 
     // 실제 픽셀 너비로 maxLen 계산 (canvas.measureText 활용)
-    var availableWidth = chatArea.clientWidth - 80; // 좌우 padding 40px씩
+    var availableWidth = chatArea.clientWidth - 80; // 좌우 padding 40px씩 (partial 모드: 32px씩)
     var testFont = '"Gowun Batang", serif';
     var charPx = measureCharPx('15px', testFont);
-    var maxLen = Math.max(10, Math.floor((availableWidth * 0.90) / charPx));
+    // 0.78 = 15% 안전 마진 (웹폰트 로딩 전이라면 canvas가 폭을 더 좁게 측정할 수 있음)
+    var safePx = availableWidth * 0.78;
+    var maxLen = Math.max(8, Math.floor(safePx / charPx));
 
     // 1. 개행(\n)으로만 먼저 분리
     var blocks = text.split('\n');
@@ -79,7 +81,7 @@ function initChat() {
         return;
       }
       // 2. 캔버스 실측 글자수(또는 구간) 기준으로 분할
-      var subLines = splitToLines(blk.trim(), maxLen, availableWidth * 0.90, '15px', testFont);
+      var subLines = splitToLines(blk.trim(), maxLen, safePx, '15px', testFont);
       allLines = allLines.concat(subLines);
     });
 
@@ -280,9 +282,12 @@ function initChat() {
       // partial (30vw)
       document.body.classList.remove('chat-closed');
       document.body.classList.remove('chat-full');
+      document.body.classList.add('chat-partial'); // 가로 스크롤 차단
       if (ca && window.innerWidth > 768) ca.style.marginLeft = '30vw';
       if (bb && window.innerWidth > 768) bb.style.marginLeft = '30vw';
     }
+    // partial 모드가 아닐 때는 chat-partial 해제
+    if (mode !== 'partial') document.body.classList.remove('chat-partial');
   }
 
   // 외부에서 호출 가능하도록 확실한 전역 객체 사용
