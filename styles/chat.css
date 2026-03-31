@@ -39,7 +39,7 @@
 /* ── 3-state 모드 ── */
 .chat-panel[data-mode="full"] {
   width: 100vw;
-  background-color: transparent; /* 전체화면 시 body의 남보라빛 그림자 배경 노출 */
+  background-color: #fffefd; /* 전체화면 배경도 동일한 fffefd */
   padding-bottom: env(safe-area-inset-bottom); /* 하단 독이 숨겨지므로 불필요한 패딩 제거, 세로 중앙 정렬 복구 */
 }
 
@@ -48,9 +48,10 @@
   min-width: 340px;
   /* 네 모서리 모두 둥글게 깎아 떠있는 모바일 화면처럼 연출 */
   border-radius: 18px;
-  height: calc(100dvh - 24px);
   top: 12px;
+  bottom: 12px;
   left: 12px;
+  height: auto; /* calc(dvh) 대신 명시적 top/bottom 앵커로 iOS 바운스 버그 방지 */
   /* 부드러운 입체감과 테두리 효과 */
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
@@ -424,7 +425,7 @@ body.landing-active {
   border: none;
   cursor: pointer;
   padding: 6px;
-  color: rgba(255, 255, 255, .6); /* 밝은 아이콘 */
+  color: #555; /* 어두운 아이콘 (배경이 fffefd 이므로 대비 뚜렷하게) */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -433,8 +434,8 @@ body.landing-active {
 }
 
 .chat-header-btn:hover {
-  background: rgba(255, 255, 255, .1);
-  color: #fff;
+  background: rgba(0, 0, 0, .05);
+  color: #1c2135;
 }
 
 .chat-header-btn svg {
@@ -547,7 +548,7 @@ body.landing-active {
   width: 18px;
   height: 120px;
   /* 데스크톱 북마크 길이 대폭 늘림 */
-  background: var(--brand);
+  background: #1c2135; /* 남보라색 통일 */
   border-radius: 0 6px 6px 0;
   cursor: pointer;
   z-index: 99;

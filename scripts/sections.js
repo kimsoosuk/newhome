@@ -68,7 +68,8 @@ function buildSections() {
     html += '<div class="program-subtitle">' + sec.sub + '</div></div>';
     
     html += '<div class="program-scroll-wrap">';
-    html += getScrollBtn(-1);
+    var hasBtns = sec.white || (sec.books && sec.books.length > 2);
+    if (hasBtns) html += getScrollBtn(-1);
     html += '<div class="program-scroll">';
     if (sec.white) {
       METHOD_DATA.forEach(function (d, i) { html += makeWhiteBook(d, i); });
@@ -76,7 +77,7 @@ function buildSections() {
       sec.books.forEach(function (b, i) { html += makeBook(b, i); });
     }
     html += '</div>';
-    html += getScrollBtn(1);
+    if (hasBtns) html += getScrollBtn(1);
     html += '</div></section>';
   });
 
@@ -93,17 +94,19 @@ function buildSections() {
     '</div></section>';
 
   // 진단
-  html += '<section class="programs-section" id="sec-diag" style="padding-bottom:20px;background:#fff">' +
+  html += '<section class="programs-section" id="sec-diag" style="background:#fff">' +
     '<div class="program-header animate-in"><div class="program-title">진단</div>' +
     '<div class="program-subtitle">나를 알아가는 공부 진단</div></div>' +
-    '<div class="diag-scroll" style="padding-bottom:10px">';
+    '<div class="program-scroll-wrap">' +
+    getScrollBtn(-1) +
+    '<div class="program-scroll diag-scroll" style="padding-bottom:10px">';
   DIAGNOSTICS_DATA.forEach(function (c, i) {
     html += '<div class="diag-card animate-in delay-' + (i % 4 + 1) + '">' +
       '<div class="diag-card-title">' + c.t + '</div>' +
       '<div class="diag-card-desc">' + c.d + '</div>' +
       '<span class="diag-card-tag">진단하기</span></div>';
   });
-  html += '</div></section>';
+  html += '</div>' + getScrollBtn(1) + '</div></section>';
 
   // 타이머
   html += '<section class="timer-section" id="sec-timer">' +

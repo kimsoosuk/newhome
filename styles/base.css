@@ -39,12 +39,9 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   padding-bottom: 60px;
-  /* 배경 — 남보라톤 방사형 그라데이션 */
-  background-image:
-    radial-gradient(ellipse at 30% 0%, rgba(46, 42, 70, 0.8) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 40%, rgba(28, 33, 53, 0.9) 0%, transparent 70%),
-    radial-gradient(ellipse at 20% 100%, rgba(56, 38, 70, 0.75) 0%, transparent 60%);
-  background-color: #121016; /* 딥 네이비 기반 다크 배경 */
+  /* 배경 — 전체 fffefd 단색 처리 */
+  background-image: none;
+  background-color: #fffefd;
 }
 
 /* SVG 노이즈 텍스처 오버레이 */
@@ -84,9 +81,6 @@ body::before {
   pointer-events: none;
 }
 
-#sec-diag::after {
-  display: none
-}
 
 .program-header {
   margin-bottom: 32px

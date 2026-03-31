@@ -4,7 +4,7 @@
 
 /* 기본 CSS 테마 변수 - 표지 디자인에 사용되는 변수 포함 */
 :root {
-  --paper: #fefcf6;
+  --paper: #fffefd;
   --paper-edge: #f0e9d6;
   --paper-shadow: #e3d8bb;
   --ink: #2a2018;
@@ -35,11 +35,8 @@
   align-items: center;
   justify-content: center;
   /* 따뜻한 베이지/아이보리 톤 배경 (조금 더 밝게 개선) */
-  background-color: #fdfaf2;
-  background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(255, 253, 245, 1) 0%, transparent 75%),
-    radial-gradient(ellipse at 80% 30%, rgba(255, 254, 250, 1) 0%, transparent 65%),
-    radial-gradient(ellipse at 50% 80%, rgba(255, 253, 245, 1) 0%, transparent 75%);
+  background-color: #fffefd;
+  background-image: none;
   transition: opacity .6s ease, visibility .6s ease;
 }
 
