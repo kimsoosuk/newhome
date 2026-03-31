@@ -94,7 +94,7 @@ function buildSections() {
     '</div></section>';
 
   // 진단
-  html += '<section class="programs-section" id="sec-diag" style="background:#fff">' +
+  html += '<section class="programs-section" id="sec-diag">' +
     '<div class="program-header animate-in"><div class="program-title">진단</div>' +
     '<div class="program-subtitle">나를 알아가는 공부 진단</div></div>' +
     '<div class="program-scroll-wrap">' +

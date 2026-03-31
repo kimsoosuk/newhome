@@ -83,21 +83,9 @@ body::before {
   overflow: visible;
 }
 
-/* 진단 섹션 특수 배경 덮어쓰기 방지 위해 !important 대신 구체적 적용 */
-#sec-diag {
-  background: #fffefd !important;
-}
 
-.programs-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 20px;
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .06));
-  pointer-events: none;
-}
+
+
 
 
 .program-header {

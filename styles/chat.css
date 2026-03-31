@@ -462,7 +462,7 @@ body.landing-active {
 .note-input {
   flex: 1;
   min-width: 0; /* Prevents long inputs from truncating the send button */
-  border: 1px solid rgba(91, 58, 122, 0.3); /* 연한 보라색 포인트 테두리 */
+  border: 1px solid #5b4a7a; /* 한층 더 진한 보라색 포인트 테두리 */
   border-radius: 20px;
   padding: 10px 16px;
   font-size: 14px;
@@ -474,10 +474,17 @@ body.landing-active {
 
 .note-input::placeholder {
   font-family: 'Gowun Batang', serif;
+  color: #999;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
 }
 
 .note-input:focus {
   border-color: #3c2e58; /* 포커스 시 커스텀 보라색 */
+}
+
+.note-input:focus::placeholder {
+  opacity: 0.8;
 }
 
 .note-send-btn {
