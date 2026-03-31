@@ -295,6 +295,11 @@ body.landing-active {
   margin-top: 32px;
 }
 
+/* 첫 번째 메시지는 항상 한 줄 아래에서 시작 */
+.note-chat-area .note-msg:first-child {
+  margin-top: 32px;
+}
+
 .note-msg.ai {
   font-family: 'Gowun Batang', 'KccBangjeonghwan', cursive;
   color: #3a3a3a;
@@ -567,7 +572,7 @@ body.landing-active {
   height: 100%;
   border-radius: 0;
   padding: 0;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08); /* 오른쪽 그림자 — 채팅창이 블레틴 보드를 덮는 메타포 */
+  box-shadow: none; /* 그림자는 .chat-panel 자체에 적용 (overflow 클립 방지) */
   border-right: none;
   border-left: none;
   background: var(--note-bg);
