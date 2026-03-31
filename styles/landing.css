@@ -52,7 +52,7 @@
 /* ---------------- CSS: Cover (데스크탑 화면) ---------------- */
 .cover-scene {
   width: 100%;
-  max-width: 560px;
+  max-width: min(560px, calc(var(--book-h) * 0.75)); /* 가로가 세로보다 뚱뚱해지지 않도록 최대 3:4 비율(0.75) 강제 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,7 +189,8 @@
   font-style: italic;
 }
 
-.cover-input:focus {
+.cover-input:focus,
+.cover-input.pseudo-focus {
   border-color: var(--gold);
   background: rgba(255, 255, 255, .1);
   box-shadow: 0 0 20px rgba(196, 164, 74, .15);

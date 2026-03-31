@@ -12,6 +12,21 @@ function initLanding() {
   // 데스크 조명 효과 — 약간의 딜레이 후 스탠딩 라이트 켜짐
   setTimeout(function () {
     landing.classList.add('light-on');
+    // 자동 포커싱 효과 (화면 뜨자마자 바로 입력 가능하도록)
+    if (landingInput) {
+      if (window.innerWidth > 768) {
+        // 데스크톱: 실제 포커스 (키보드 팝업 없음, 바로 타이핑 가능)
+        landingInput.focus();
+      } else {
+        // 모바일/태블릿: 실제 포커스 시 터치 키보드가 화면을 가리는 현상 방지.
+        // 시각적으로만 포커스된 것처럼 보이게 처리.
+        landingInput.classList.add('pseudo-focus');
+        // 실제 터치 시 가짜 포커스 클래스 제거
+        landingInput.addEventListener('focus', function() {
+          this.classList.remove('pseudo-focus');
+        }, {once: true});
+      }
+    }
   }, 800);
 
   // 입장 공통 로직
