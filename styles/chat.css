@@ -48,6 +48,8 @@
 .chat-panel[data-mode="partial"] {
   width: 30vw;
   min-width: 340px;
+  /* 책처럼 모서리 곡률 추가 */
+  border-radius: 0 14px 14px 0;
   /* 오른쪽 그림자 — fixed 엘리먼트에 적용해야 overflow 클립 없이 표시됨 */
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.10);
 }

@@ -75,7 +75,7 @@
   display: flex;
   width: 100%;
   height: var(--book-h);
-  border-radius: 4px 8px 8px 4px;
+  border-radius: 6px 14px 14px 6px;
   box-shadow:
     -4px 0 10px rgba(0, 0, 0, .3),
     10px 10px 30px rgba(0, 0, 0, .4),
@@ -95,13 +95,20 @@
 /* 표지 앞면(얼굴) */
 .cover-face {
   flex: 1;
-  background: linear-gradient(180deg, #443751, var(--cover) 30%, #171320);
-  border-radius: 0 8px 8px 0;
-  padding: 48px 36px;
+  background-color: #1a1423; /* Deep Velvet Blue-Navy */
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(100, 80, 140, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(60, 45, 90, 0.5) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.3) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.18' style='mix-blend-mode: overlay;'/%3E%3C/svg%3E");
+  background-blend-mode: normal, normal, overlay, normal;
+  box-shadow: inset 0 0 80px rgba(0,0,0,0.5); /* Velvet soft edge shadow */
+  border-radius: 0 14px 14px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 10vh 36px 0 36px; /* 더 위로 올림 */
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -128,20 +135,14 @@
   opacity: .6;
 }
 
-.cover-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 24px;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .3));
-  border-radius: 50%;
-}
-
 .cover-title {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+  font-size: 2.1rem; /* 조금 더 시원하게 크기 업 */
+  font-weight: 800; /* 더 '힘있는' 느낌을 위해 800 적용 */
+  letter-spacing: -0.03em; /* 프리미엄 산세리프 특유의 좁은 자간 */
   color: var(--paper);
-  margin-bottom: 32px;
-  line-height: 1.35;
+  margin-bottom: 24px;
+  line-height: 1.2;
 }
 
 .cover-desc {
@@ -163,19 +164,24 @@
   width: 100%;
   max-width: 300px;
   position: relative;
+  margin-top: auto;
+  margin-bottom: 24px;
 }
 
 .cover-input {
   width: 100%;
-  padding: 14px 48px 14px 20px;
+  height: 130px; /* 세로 크기 조금 더 확대 */
+  padding: 18px 56px 18px 20px;
   border: 1px solid rgba(196, 164, 74, .3);
-  border-radius: 24px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, .06);
   color: var(--paper);
   font-family: var(--font-serif);
-  font-size: .92rem;
+  font-size: .95rem;
   outline: none;
   transition: all .3s;
+  resize: none;
+  line-height: 1.6;
 }
 
 .cover-input::placeholder {
@@ -191,9 +197,8 @@
 
 .cover-sbtn {
   position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 10px;
+  bottom: 10px;
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -213,14 +218,15 @@
 }
 
 .cover-sbtn:active {
-  transform: translateY(-50%) scale(.92);
+  transform: scale(.92);
 }
 
 /* ---------------- CSS: 나의 단어장 영역 ---------------- */
 .vocab-section {
   width: 100%;
   max-width: 300px;
-  margin-top: 20px;
+  margin-top: 0;
+  margin-bottom: 8vh;
   display: flex;
   flex-direction: column;
   align-items: center;
