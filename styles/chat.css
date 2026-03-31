@@ -35,6 +35,8 @@
     radial-gradient(ellipse at 80% 30%, rgba(255, 254, 250, 1) 0%, transparent 65%),
     radial-gradient(ellipse at 50% 80%, rgba(255, 253, 245, 1) 0%, transparent 75%);
   overflow: hidden;
+  overflow-x: hidden; /* 태블릿 좌우 스와이프 방지 */
+  touch-action: pan-y; /* 수직 스크롤만 허용, 수평 제스처 차단 */
   padding-bottom: calc(60px + env(safe-area-inset-bottom));
 }
 
@@ -248,14 +250,13 @@ body.landing-active {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 64px 40px 32px 40px;
-  /* 32배수 여백으로 완벽하게 줄눈과 텍스트 싱크 맞춤 */
+  /* 패딩을 한 번만 명시하여 shorthand/longhand 충돌 제거 */
+  padding: 32px 40px 32px 40px;
   display: flex;
   flex-direction: column;
-  padding-top: 32px;
-  /* 사용자 요청: 맨 첫윗줄 비우고 그 아래부터 시작 */
 
-  /* 줄눈 배경 (스크롤과 함께 이동, 밀림 없는 고정 타일 사이즈 배경 방식) */
+  /* 줄눈 배경 — 배경색을 content-box에 명시적으로 고정 */
+  background-color: var(--note-bg);
   background-image: linear-gradient(to bottom, transparent 31px, var(--note-line-color) 31px, var(--note-line-color) 32px);
   background-size: 100% 32px;
   background-attachment: local;
@@ -269,24 +270,23 @@ body.landing-active {
 
 /* 메시지 */
 .note-msg {
-  line-height: var(--note-line-h);
+  line-height: 32px;
   font-size: 15px;
   padding: 0 4px;
   word-break: keep-all;
-  overflow-wrap: break-word;
-  overflow-wrap: break-word;
   position: relative;
   z-index: 1;
-  max-width: 90%;
+  max-width: 100%; /* 컨테이너를 벗어나지 않도록 */
   opacity: 0;
   margin: 0;
   height: 32px;
-  /* 32px 그리드에 강제 고정 */
+  min-height: 32px;
+  max-height: 32px;
   display: flex;
   align-items: center;
-  /* 텍스트 수직 중앙 정렬 */
   white-space: nowrap;
-  /* 브라우저 자체 줄바꿈 방지 (JS splitToLines 로직에 위임) */
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* 화자가 바뀔 때 한 줄 띄우기 (margin-top 방식이 그리드 유지에 더 확실함) */
@@ -343,20 +343,18 @@ body.landing-active {
   }
 }
 
-/* ── 공용 부분/모바일 최상단 흰색 헤더 ── */
+/* ── 공용 부분/모바일 최상단 헤더 (딥 네이비 퍼플) ── */
 .chat-top-header {
   display: none;
-  /* 디폴트(full) 숨김 */
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #ffffff;
-  /* 사용자 요청: 흰색 패널 */
-  border-bottom: 1px solid rgba(0, 0, 0, .08);
+  background: #1c2135; /* 책 표지 커버 색상 */
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
   position: relative;
   z-index: 10;
   order: -1;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 .chat-panel[data-mode="partial"] .chat-top-header {
@@ -374,7 +372,7 @@ body.landing-active {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.25); /* 다크 배경용 밝은 테두리 */
   background: var(--paper);
 }
 
@@ -382,7 +380,7 @@ body.landing-active {
   font-family: var(--font-serif);
   font-weight: 700;
   font-size: 16px;
-  color: #333;
+  color: #e8e4f0; /* 밝은 라벤더 계열 */
 }
 
 .chat-header-controls {
@@ -396,7 +394,7 @@ body.landing-active {
   border: none;
   cursor: pointer;
   padding: 6px;
-  color: #777;
+  color: rgba(255, 255, 255, .6); /* 밝은 아이콘 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -405,8 +403,8 @@ body.landing-active {
 }
 
 .chat-header-btn:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: #333;
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
 }
 
 .chat-header-btn svg {
@@ -568,11 +566,9 @@ body.landing-active {
   height: 100%;
   border-radius: 0;
   padding: 0;
-  box-shadow: none;
-  /* 3D 입체 그림자로 인해 떠보이는 공간 삭제 */
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08); /* 오른쪽 그림자 — 채팅창이 블레틴 보드를 덮는 메타포 */
   border-right: none;
-  border-left: 1px solid rgba(0, 0, 0, 0.06);
-  /* 왼쪽 구분선으로 전환 */
+  border-left: none;
   background: var(--note-bg);
 }
 

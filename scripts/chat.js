@@ -64,10 +64,11 @@ function initChat() {
     }
     lastRole = role;
 
-    // 화면 너비에 맞춰 줄바꿈 글자 수 계산 (한국어 특성상 조금 더 보수적으로 13으로 나눔)
-    var availableWidth = chatArea.clientWidth * 0.85; 
-    var maxLen = Math.floor(availableWidth / 13);
-    if (maxLen < 15) maxLen = 15;
+    // 실제 픽셀 너비로 maxLen 계산 (canvas.measureText 활용)
+    var availableWidth = chatArea.clientWidth - 80; // 좌우 padding 40px씩
+    var testFont = '"Gowun Batang", serif';
+    var charPx = measureCharPx('15px', testFont);
+    var maxLen = Math.max(10, Math.floor((availableWidth * 0.90) / charPx));
 
     // 1. 개행(\n)으로만 먼저 분리
     var blocks = text.split('\n');
@@ -77,8 +78,8 @@ function initChat() {
         allLines.push(''); // 빈 로우
         return;
       }
-      // 2. 가로폭이 넘는 긴 텍스트는 글자수(maxLen) 기준으로 분할
-      var subLines = splitToLines(blk.trim(), maxLen);
+      // 2. 캔버스 실측 글자수(또는 구간) 기준으로 분할
+      var subLines = splitToLines(blk.trim(), maxLen, availableWidth * 0.90, '15px', testFont);
       allLines = allLines.concat(subLines);
     });
 
@@ -87,7 +88,7 @@ function initChat() {
       var el = document.createElement('div');
       el.className = 'note-msg ' + role;
       if (idx === 0 && isTurnStart) el.classList.add('turn-start');
-      el.textContent = line; 
+      el.textContent = line;
       chatArea.appendChild(el);
 
       setTimeout(function () {
@@ -101,17 +102,55 @@ function initChat() {
     });
   }
 
-  function splitToLines(text, maxLen) {
-    if (!text || text.length <= maxLen) return [text || ''];
+  // canvas 로 한 글자 평균 픽셀 너비 측정
+  var _charPxCache = {};
+  function measureCharPx(fontSize, fontFamily) {
+    var key = fontSize + fontFamily;
+    if (_charPxCache[key]) return _charPxCache[key];
+    try {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.font = fontSize + ' ' + fontFamily;
+      var sample = '가나다라마바사아자차카타파하';
+      var w = ctx.measureText(sample).width / sample.length;
+      _charPxCache[key] = w;
+      return w;
+    } catch(e) {
+      return 16; // 폴백값
+    }
+  }
+
+  function splitToLines(text, maxLen, maxPx, fontSize, fontFamily) {
+    if (!text) return [''];
+
+    var ctx = null;
+    try {
+      var c = document.createElement('canvas');
+      ctx = c.getContext('2d');
+      ctx.font = fontSize + ' ' + fontFamily;
+    } catch(e) { ctx = null; }
 
     var result = [];
-    var startIndex = 0;
-    while (startIndex < text.length) {
-      var chunk = text.substr(startIndex, maxLen);
-      result.push(chunk);
-      startIndex += maxLen;
+    var remaining = text;
+    while (remaining.length > 0) {
+      if (ctx && maxPx) {
+        // 실제 px 지원에 맞는 최대 글자수를 이진탐색으로 찾음
+        var lo = 1, hi = remaining.length, fit = 1;
+        while (lo <= hi) {
+          var mid = (lo + hi) >> 1;
+          var w = ctx.measureText(remaining.substr(0, mid)).width;
+          if (w <= maxPx) { fit = mid; lo = mid + 1; }
+          else { hi = mid - 1; }
+        }
+        result.push(remaining.substr(0, fit));
+        remaining = remaining.substr(fit);
+      } else {
+        result.push(remaining.substr(0, maxLen));
+        remaining = remaining.substr(maxLen);
+      }
     }
     return result;
+
   }
 
   // ── API 호출 (Worker 경유) ──
