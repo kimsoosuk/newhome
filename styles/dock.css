@@ -73,11 +73,11 @@
 }
 
 #dockChat.active .dock-icon svg {
-  stroke: #1c2135;
+  stroke: #3c2e58;
 }
 
 #dockChat.active .dock-label {
-  color: #1c2135;
+  color: #3c2e58;
   font-weight: 700;
 }
 

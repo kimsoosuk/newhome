@@ -44,21 +44,21 @@ body {
   background-color: #fffefd;
 }
 
-/* 채팅 부분 열기(Partial) 모드 시 메인 콘텐츠가 가려지지 않도록 우측으로 밀어주기 */
+/* 채팅 부분 열기(Partial) 모드 시 메인 콘텐츠가 가려지지 않도록 우측으로 밀어주기 (채팅창 오프셋만큼만 이동) */
 body.chat-partial .content-area,
 body.chat-partial .bulletin-board {
-  padding-left: calc(max(340px, 30vw) + 24px) !important;
+  transform: translateX(12px);
 }
 
 .content-area,
 .bulletin-board {
-  transition: padding-left 0.4s cubic-bezier(.2, .8, .2, 1);
+  transition: transform 0.4s cubic-bezier(.2, .8, .2, 1);
 }
 
 @media(max-width: 768px) {
   body.chat-partial .content-area,
   body.chat-partial .bulletin-board {
-    padding-left: 0 !important;
+    transform: none;
   }
 }
 
@@ -161,6 +161,7 @@ body::before {
 
 .program-scroll {
   display: flex;
+  justify-content: flex-start !important; /* 우축 쏠림/가운데 정렬 방지 */
   gap: clamp(14px, 2.5vw, 22px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
